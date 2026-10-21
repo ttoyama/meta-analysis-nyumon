@@ -1,0 +1,14 @@
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+.DS_Store
+data/
+fig/
+out/
+fig_*.pdf
+Rplots.pdf
+
+# 手元の作業用（公開しない）
+.claude/
+handoff_*.md
