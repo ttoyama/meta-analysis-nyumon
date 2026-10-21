@@ -63,7 +63,7 @@ mu <- c(b["sens"], -b["spec"])   # logit 感度、logit 偽陽性割合
 V_m <- matrix(c(V[1, 1], -V[1, 2], -V[1, 2], V[2, 2]), 2)
 conf <- ellipse_roc(mu, V_m)
 pred <- ellipse_roc(mu, S_btw + V_m)
-cairo_pdf("fig_summary05.pdf", width = 5, height = 5)
+pdf("fig_summary05.pdf", width = 5, height = 5, family = "Japan1GothicBBB")   # 日本語を書く
 plot(NA, xlim = c(0, 1), ylim = c(0, 1),
      xlab = "1 - 特異度（偽陽性割合）", ylab = "感度")
 abline(0, 1, lty = 3)
@@ -76,7 +76,7 @@ dev.off()
 # 全 10 研究: SROC 曲線（曲線だけを描き、要約点は使わない）
 fit_all <- reitsma(pct)
 summary(fit_all)
-cairo_pdf("fig_sroc.pdf", width = 5, height = 5)
+pdf("fig_sroc.pdf", width = 5, height = 5, family = "Japan1GothicBBB")   # 日本語を書く
 plot(NA, xlim = c(0, 1), ylim = c(0, 1),
      xlab = "1 - 特異度（偽陽性割合）", ylab = "感度")
 abline(0, 1, lty = 3)
