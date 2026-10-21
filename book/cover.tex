@@ -1,0 +1,72 @@
+% 読み物版の表紙。開いた 1 ページ目として機能する。
+%
+% **Kindle 端末のライブラリ一覧には出ない。**一覧の表紙は Amazon のサーバーから
+% 取りに行く設計で、自分で送った文書には対応レコードがないため、汎用枠に
+% タイトル文字だけが出る。ロック画面と Kindle アプリでは出る。
+% したがってここは「一覧で目立たせる」ためではなく「開いたときの顔」として作る。
+%
+% TikZ のノード内で \\ を使うとフォントサイズが 2 行目に引き継がれないので、
+% **行ごとに別ノードを置く**。
+%
+% 引数: {ラベル}{題1行目}{題2行目}{副題}{日付}
+% 題が 1 行で足りるときは 3 番目を空にする。3 行要るときはノードを 1 つ足し、
+% 以降の y 座標を 16mm ずつ下げる。
+% 2026-10-21: 印刷でインクを使いすぎないよう、白地に細い罫線と文字だけの表紙にした。
+% 飾りは淡い色の線画（SROC 曲線とフォレストプロット）にとどめる。
+\newcommand{\thumbcover}[5]{%
+  \thispagestyle{empty}%
+  \null
+  \begin{tikzpicture}[remember picture, overlay]
+    \fill[kkaccent]
+      ([yshift=-14mm]current page.north west)
+      rectangle ([yshift=-15.2mm]current page.north east);
+
+    \node[anchor=north west, text=kkaccent, inner sep=0pt]
+      at ([xshift=12mm, yshift=-28mm]current page.north west)
+      {\kkgt{5}\fontsize{11}{11}\selectfont #1};
+
+    \node[anchor=north west, text=kkdark, inner sep=0pt]
+      at ([xshift=12mm, yshift=-38mm]current page.north west)
+      {\kkgt{7}\fontsize{32}{32}\selectfont #2};
+    \node[anchor=north west, text=kkdark, inner sep=0pt]
+      at ([xshift=12mm, yshift=-54mm]current page.north west)
+      {\kkgt{7}\fontsize{32}{32}\selectfont #3};
+
+    \fill[kkaccent]
+      ([xshift=12mm, yshift=-55mm]current page.north west)
+      rectangle ([xshift=34mm, yshift=-55.9mm]current page.north west);
+
+    \node[anchor=north west, text=kkdark, inner sep=0pt, align=left,
+          font=\kkgt{5}\fontsize{13}{18}\selectfont]
+      at ([xshift=12mm, yshift=-62mm]current page.north west)
+      {#4};
+
+    % 飾り: 左にフォレストプロット、右に SROC 曲線（淡い線画）
+    \begin{scope}[shift={([xshift=14mm, yshift=40mm]current page.south west)}, x=1mm, y=1mm,
+                  draw=kksecondary, line width=.6pt]
+      \draw[dashed] (28,0) -- (28,62);
+      \foreach \y/\c/\w in {58/20/9, 52/24/6, 46/18/12, 40/26/5, 34/22/8, 28/25/7, 22/19/10, 16/23/6} {
+        \draw (\c-\w,\y) -- (\c+\w,\y);
+        \fill[kksecondary] (\c-1.2,\y-1.2) rectangle (\c+1.2,\y+1.2);
+      }
+      \fill[kkaccent!60] (16,6) -- (22,8) -- (28,6) -- (22,4) -- cycle;
+    \end{scope}
+    \begin{scope}[shift={([xshift=-74mm, yshift=40mm]current page.south east)}, x=1mm, y=1mm,
+                  line width=.6pt]
+      \draw[kksecondary] (0,0) rectangle (60,60);
+      \draw[kksecondary, dotted] (0,0) -- (60,60);
+      \draw[kkaccent!70, line width=1pt] plot[domain=0:1, samples=60, smooth] ({60*\x}, {60*(\x)^(0.28)});
+      \foreach \px/\py in {14/46, 18/52, 9/40, 22/50, 12/44, 26/55, 16/38, 30/54} {
+        \draw[kksecondary, fill=white] (\px,\py) circle (1.5);
+      }
+      \draw[kkaccent, fill=kkwarm!70] (16,47) -- (17.8,48.8) -- (16,50.6) -- (14.2,48.8) -- cycle;
+    \end{scope}
+
+    \fill[kkaccent]
+      ([yshift=22mm]current page.south west)
+      rectangle ([yshift=22.6mm]current page.south east);
+    \node[anchor=south west, text=kkdark, inner sep=0pt]
+      at ([xshift=12mm, yshift=11mm]current page.south west)
+      {\kkgt{3}\fontsize{9}{9}\selectfont #5};
+  \end{tikzpicture}%
+  \clearpage}

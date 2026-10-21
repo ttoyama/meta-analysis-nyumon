@@ -1,0 +1,99 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{kk-components}[2026/08/11 v1.0.0 Study-guide boxes (ported from 1SNotes sty-v2)]
+\RequirePackage{kk-layout}
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{varwidth}
+\usetikzlibrary{calc}
+% LuaLaTeX 版の ascolorbox 互換ヘルパ（エンジン分岐なし）
+\def\kk@ascb@gtfamily{\gtfamily}
+\def\kk@ascb@zw#1#2{#1\zw}
+\newcommand{\kk@ascb@parindent}[1]{%
+  \setlength{\parindent}{#1}\relax%
+}
+\newdimen\kk@ascb@parindentdimen
+\kk@ascb@parindentdimen=\zw
+
+% [anatomy:見出し付き囲み枠(simpleao)]
+\DeclareTColorBox{simpleao}{ o m O{.5} O{} }%
+{empty, left=2mm, right=2mm, top=-1mm,
+attach boxed title to top left={xshift=\kk@ascb@zw{1.2}{11pt}},
+boxed title style={empty,left=-.5mm,right=-.5mm},
+colframe=kkaccent, coltitle=kkdark, coltext=black, breakable,
+before upper={\kk@ascb@parindent{\kk@ascb@parindentdimen}},%
+underlay unbroken={\draw[kkaccent,line width=#3pt](title.east) -- (title.east-|frame.east) -- (frame.south east) -- (frame.south west) -- (title.west-|frame.west) -- (title.west); },
+underlay first={\draw[kkaccent,line width=#3pt](title.east) -- (title.east-|frame.east) -- (frame.south east) ;
+\draw[kkaccent,line width=#3pt] (frame.south west) -- (title.west-|frame.west) -- (title.west); },
+underlay middle={\draw[kkaccent,line width=#3pt](frame.north east) -- (frame.south east) ;
+\draw[kkaccent,line width=#3pt](frame.south west) -- (frame.north west) ;},
+underlay last={\draw[kkaccent,line width=#3pt](frame.north east) -- (frame.south east) -- (frame.south west) -- (frame.north west) ;},
+fonttitle=\kk@ascb@gtfamily, IfValueTF={#1}{title={#2\quad #1}}{title={#2}}, #4}
+
+\ExplSyntaxOn
+
+\tl_new:N \l__kk_boxes_title_tl
+\int_new:N \l__kk_boxes_count_int
+
+% [anatomy:演習枠(practiceboxao)]
+\DeclareTColorBox{practiceboxao}{ O{} m O{} }{%
+  enhanced, sharp~corners, colback=kkpale, colframe=kkpale,
+  attach~boxed~title~to~top~left={xshift=0mm, yshift=1mm},
+  fonttitle=\gtfamily, varwidth~boxed~title=0.85\linewidth, breakable, arc=0mm, title={#2},
+  enlarge~top~by=2mm,
+  boxed~title~style={empty, arc=0pt, outer~arc=0pt, boxrule=0pt},
+  before~upper={\kk@ascb@parindent{\kk@ascb@parindentdimen}},%
+  underlay~unbroken~and~first={
+    \draw[kkaccent, ultra~thick] (frame.north~west) -- (frame.north~east);
+    \draw[kksecondary] ([yshift=-.8mm]frame.north~west) -- ([yshift=-.8mm]frame.north~east);
+    \tl_set:Nn \l__kk_boxes_title_tl { #2 }
+    \int_set:Nn \l__kk_boxes_count_int { \tl_count:N \l__kk_boxes_title_tl }
+    \int_step_inline:nn { \l__kk_boxes_count_int } {
+      \int_if_odd:nTF { ##1 } {
+        \fill[kkaccent]
+          ([xshift=\dimexpr 6mm * (##1 - 1)\relax, yshift=1mm]frame.north~west) rectangle +(6mm, 6mm);
+        \node[white] at
+          ([xshift=\dimexpr 3mm + 6mm * (##1 - 1)\relax, yshift=4mm]frame.north~west)
+          { \large\textgt{ \tl_item:Nn \l__kk_boxes_title_tl { ##1 } } };
+      }
+      {
+        \node[kkdark] at
+          ([xshift=\dimexpr 3mm + 6mm * (##1 - 1)\relax, yshift=4mm]frame.north~west)
+          { \large\textgt{ \tl_item:Nn \l__kk_boxes_title_tl { ##1 } } };
+      }
+    }
+    \draw[kkaccent,thick] ([yshift=1mm]frame.north~west) -- ++(0mm, 6mm)
+      -- ++(\dimexpr 6mm * \l__kk_boxes_count_int\relax, 0mm)
+      -- node[right=2mm] { \textgt{#1} } ++(0mm, -6mm) -- cycle;
+  },
+  underlay~unbroken~and~last={
+    \draw[kkaccent, ultra~thick] (frame.south~west) -- (frame.south~east);
+    \draw[kksecondary] ([yshift=.8mm]frame.south~west) -- ([yshift=.8mm]frame.south~east);
+  }, #3
+}
+
+\ExplSyntaxOff
+
+\newlength{\kk@fbox@adjlen}
+
+% [anatomy:左罫線注記枠(KKfbox9ao)]
+\NewDocumentEnvironment{KKfbox9ao}{ O{} O{1pt} O{kkaccent} }{%
+  \settowidth{\kk@fbox@adjlen}{#1}
+  \begin{tcolorbox}[blanker,breakable,
+  after skip=6pt,before skip=4pt,
+  before upper={\kk@ascb@parindent{\kk@ascb@parindentdimen}},%
+  borderline west={#2}{2mm+\kk@fbox@adjlen}{#3},
+  colback=white,frame hidden,enhanced,
+  left=4mm+\kk@fbox@adjlen,
+  overlay unbroken={%
+    \node[anchor=north west, text=#3, font=\gtfamily]
+      at ([yshift=\f@size/2.7 pt]frame.north west) {\small #1};
+  },
+  overlay first={%
+    \node[anchor=north west, text=#3, font=\gtfamily]
+      at ([yshift=\f@size/2.7 pt]frame.north west) {\small #1};
+  },
+  overlay middle={},overlay last={},
+  ]
+}{%
+  \end{tcolorbox}
+}
+\endinput

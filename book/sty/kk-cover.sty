@@ -1,0 +1,267 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{kk-cover}[2026/08/11 v1.0.0 Default cover page]
+\RequirePackage{kk-layout}
+\RequirePackage{tikz}
+% ---- 既定表紙「Split Editorial」 ----
+% 紙面を x=140mm（A4 換算）で左右に分割する。左は明るい編集紙面
+% （pale!30!white）、右は無彩の墨（\<prefix>coverDark）。主題は暗い欄に
+% 紙色で縦組みし、その左に暗地用スペクトラムの細帯（1.4mm）を通す。左の
+% 紙面には輪郭だけの円窓と、ラベル・副題・フッタの小さい横組みだけを置く。
+% 図版も飾り罫もない。
+%
+% 設計メモ:
+% - A4 決め打ちの mm を書かない。A4 の 1mm・1pt を単位長 \<prefix>@cv@ux/uy/upt に
+%   置き、原寸の数値をそのまま書いて判型（b5 / a5）に追随させる。
+% - 左の地と主題の文字は同じ pale!30!white（「主題は紙の色で抜く」）。左面の
+%   小さい文字は dark。右の墨 \<prefix>coverDark、帯の 7 停留色
+%   \<prefix>coverSpecA..G（暗地用に明度を一段上げたくすみスペクトラム
+%   藍→青→青緑→抹茶→黄土→煉瓦→薄紅）、円窓中心の点 \<prefix>coverMark は
+%   実測値で持ち、文書側の \definecolor で差し替えられる。
+% - 縦組みは組版方向そのものを \tate へ切り替えた局所縦組みの箱に一息で流す。
+%   1 文字ずつ置くと長音符・括弧・句読点が横組みの字形と位置のまま出てしまう
+%   （「ー」が横倒し、「、」が中央下）が、方向を切り替えれば縦組みの字形
+%   （vert）と約物のツメが luatexja の組版どおりに出る。
+% - 字送りは kanjiskip を .47643\zw に固定して作る（26pt で 13.5mm 相当）。
+%   柱の高さ 216mm 相当に収まらない主題は、箱ごと同率で縮める。
+% - 半角数字は縦組みでは横倒しになるので、1〜2 桁は縦中横で立て、3 桁以上は
+%   1 桁ずつ立てて縦に並べる。lltjext の \rensuji は \parbox・minipage・
+%   tabular まで定義し直してしまうので読まず、必要な一手だけをここに持つ。
+% - 主題の箱は tikzpicture の外で組む。picture の中では欧文フォントが nullfont に
+%   なっていて、そこで \sbox すると数字と欧文が警告だけ残して消える。
+% - \<prefix>gt は和文しか切り替えないので、欧文が明朝で出ないよう \sffamily を
+%   前置して全文ゴシックに揃える。
+\newlength{\kk@cv@ux}   % A4 の 1mm（横）
+\newlength{\kk@cv@uy}   % A4 の 1mm（縦）
+\newlength{\kk@cv@upt}  % A4 の 1pt（判型に比例させた文字サイズの単位）
+
+% 右面の墨。青にも茶にも寄せない無彩のチャコール
+\definecolor{kkcoverDark}{HTML}{1B2028}
+% 暗地用スペクトラムの 7 停留色（帯は 6 区間のグラデーション）。
+% くすみを保ったまま明度だけ一段上げてあり、墨の上でも沈まない
+\definecolor{kkcoverSpecA}{HTML}{7F90D0}
+\definecolor{kkcoverSpecB}{HTML}{72ACCA}
+\definecolor{kkcoverSpecC}{HTML}{70BEA5}
+\definecolor{kkcoverSpecD}{HTML}{B7C97D}
+\definecolor{kkcoverSpecE}{HTML}{D9B66D}
+\definecolor{kkcoverSpecF}{HTML}{D88B70}
+\definecolor{kkcoverSpecG}{HTML}{CF83A2}
+% 円窓の中心に置く点。帯の終端と同じ薄紅
+\definecolor{kkcoverMark}{HTML}{CF83A2}
+% 左の紙面と主題の文字色は同じ「紙の色」。他の表紙色と同じく文書側から
+% \definecolor で差し替えられるよう、内部名ではなく公開名で持つ。
+% 黒地の文書ではここを暗い値へ置き直す（混色式のままだと xcolor の混色が
+% 必ず真の白へ向かうため、white を差し替えても 70% の白さから下がらない）。
+\colorlet{kkcoverPaper}{kkpale!30!white}
+% 墨の欄に抜く主題の色。既定は紙の色そのもの（「主題は紙の色で抜く」）だが、
+% 紙と切り離して差し替えられるよう別名で持つ。黒地の文書では紙を黒に落とし
+% たまま主題だけ白にする、といった組み合わせがここでできる。
+\colorlet{kkcoverTitle}{kkcoverPaper}
+
+% ラベル用: 欧文の字送りと和文の字間を一緒に開ける
+\newcommand{\kk@cv@labeltracked}[1]{%
+  \begingroup
+  \addfontfeature{LetterSpace=24}%
+  \ltjsetparameter{kanjiskip=.16\zw plus 0pt minus 0pt}%
+  #1%
+  \endgroup}
+
+\newsavebox{\kk@cv@tbox}   % 主題の局所縦組み箱
+\newsavebox{\kk@cv@embox}  % 縦中横の作業箱
+\newlength{\kk@cv@trk}     % 主題の字間（字送り − 1 字分）
+
+% 半角数字を縦中横で立てる。横組みで組んだ小箱の中心を、柱の 1 字分の枠に
+% 合わせて落とす。前後には字間の半分ずつを置いて、柱の律動を崩さない。
+\newcommand{\kk@cv@tcy}[1]{%
+  \setbox\kk@cv@embox\hbox{\yoko#1}%
+  \@tempdima\dimexpr.5\ht\kk@cv@embox-.5\dp\kk@cv@embox\relax
+  \hskip.5\kk@cv@trk
+  \hbox to\zw{\yoko\hss\lower\@tempdima\box\kk@cv@embox\hss
+    \vrule\@width\z@\@height.5\zw\@depth.5\zw}%
+  \hskip.5\kk@cv@trk}
+
+\ExplSyntaxOn
+% 数字の並びの扱い。2 桁までは 1 字分に詰めて縦中横、3 桁以上は 1 桁ずつ
+% 立てて縦に並べる（横倒しの「2026」を避ける）。
+\cs_new_protected:Npn \kk@cv@num #1
+  {
+    \int_compare:nNnTF { \tl_count:n {#1} } < 3
+      { \kk@cv@tcy {#1} }
+      { \tl_map_inline:nn {#1} { \kk@cv@tcy {##1} } }
+  }
+
+% [anatomy:表紙の縦組み主題]
+% 主題を \tate の箱へ 1 行で組み、柱の高さ（216mm 相当）に収まらなければ
+% 縮小率を \<prefix>@cv@scale に残す。picture の中は欧文が nullfont なので、
+% この箱は必ず tikzpicture の外で組むこと。
+\tl_new:N \kk@cv@scale
+\cs_new_protected:Npn \kk@cv@titlebox #1
+  {
+    \tl_set:Nn \l_tmpa_tl {#1}
+    \regex_replace_all:nnN { ([0-9]+) } { \c{kk@cv@num} \cB\{ \1 \cE\} } \l_tmpa_tl
+    \sbox \kk@cv@tbox
+      {
+        \hbox
+          {
+            \tate
+            \color { kkcoverTitle }
+            \sffamily \kkgt{7}
+            \fontsize { 26\kk@cv@upt } { 26\kk@cv@upt } \selectfont
+            \setlength \kk@cv@trk { .47643\zw }
+            \ltjsetparameter
+              { kanjiskip = \kk@cv@trk, xkanjiskip = \kk@cv@trk }
+            \tl_use:N \l_tmpa_tl
+          }
+      }
+    \tl_set:Nx \kk@cv@scale
+      {
+        \fp_eval:n
+          {
+            min( 1,
+                 \dim_to_fp:n { 216\kk@cv@uy } /
+                 \dim_to_fp:n { \box_ht:N \kk@cv@tbox } )
+          }
+      }
+  }
+\ExplSyntaxOff
+
+% 組んだ主題を x=163mm の柱へ、上端 y=256.6mm（26pt の 1 字目の中心が
+% y=252mm）から下へ落とす。
+\newcommand{\kk@cv@puttitle}{%
+  \node[anchor=north, inner sep=0pt]
+    at (163\kk@cv@ux,256.6\kk@cv@uy)
+    {\scalebox{\kk@cv@scale}{\usebox\kk@cv@tbox}};}
+
+% [anatomy:表紙]
+\NewDocumentCommand{\kkcover}{ m m m m }{%
+  \clearpage
+  \thispagestyle{empty}%
+  \null
+  \setlength{\kk@cv@ux}{.00476190\paperwidth}%
+  \setlength{\kk@cv@uy}{.00336700\paperheight}%
+  \setlength{\kk@cv@upt}{.00167364\paperwidth}%
+  \kk@cv@titlebox{#2}%
+  \begin{tikzpicture}[remember picture, overlay,
+    shift={(current page.south west)}]
+    % [anatomy:表紙の地]
+    % x=140mm で左右に割る。左は紙、右は墨
+    \fill[kkcoverPaper] (0,0) rectangle (140\kk@cv@ux,\paperheight);
+    \fill[kkcoverDark] (140\kk@cv@ux,0) rectangle (\paperwidth,\paperheight);
+
+    % [anatomy:表紙のスペクトラム帯]
+    % 主題の左、墨の上に通す幅 1.4mm の縦帯。上から下へ 6 区間の線形
+    % グラデーションをつないで藍→薄紅とゆっくり回す。紙面で色を持つのは
+    % この帯と円窓の点だけ
+    \foreach \kk@cv@ytop/\kk@cv@ct/\kk@cv@cb in {%
+      264/kkcoverSpecA/kkcoverSpecB,%
+      226/kkcoverSpecB/kkcoverSpecC,%
+      188/kkcoverSpecC/kkcoverSpecD,%
+      150/kkcoverSpecD/kkcoverSpecE,%
+      112/kkcoverSpecE/kkcoverSpecF,%
+      74/kkcoverSpecF/kkcoverSpecG}{%
+      \shade[top color=\kk@cv@ct, bottom color=\kk@cv@cb]
+        (149.3\kk@cv@ux,\kk@cv@ytop\kk@cv@uy)
+        ++(0,-38\kk@cv@uy) rectangle ++(1.4\kk@cv@ux,38\kk@cv@uy);}
+
+    \kk@cv@puttitle
+
+    % [anatomy:表紙の円窓]
+    % 左の紙面に置く輪郭だけの二重円。右の墨の欄と釣り合わせる錘で、装飾では
+    % ない。外円をはっきり、内円を弱く。中心の点だけが帯以外で唯一色を持つ
+    \draw[kkdark!45!white, line width=.6pt]
+      (58\kk@cv@ux,86\kk@cv@uy) circle (34\kk@cv@ux);
+    \draw[kkdark!22!white, line width=.4pt]
+      (58\kk@cv@ux,86\kk@cv@uy) circle (30.4\kk@cv@ux);
+    \fill[kkcoverMark] (58\kk@cv@ux,86\kk@cv@uy) circle (1.5\kk@cv@ux);
+
+    % [anatomy:表紙の文字組]
+    \if\relax\detokenize{#1}\relax\else\node[anchor=base west, inner sep=0pt, text=kkdark]
+      at (21\kk@cv@ux,252\kk@cv@uy)
+      {\sffamily\kkgt{5}\fontsize{10\kk@cv@upt}{15\kk@cv@upt}\selectfont
+       \kk@cv@labeltracked{#1}};\fi
+    \if\relax\detokenize{#3}\relax\else\node[anchor=base west, inner sep=0pt, text=kkdark]
+      at (21\kk@cv@ux,44\kk@cv@uy)
+      {\sffamily\kkgt{5}\fontsize{13\kk@cv@upt}{20\kk@cv@upt}\selectfont #3};\fi
+    \if\relax\detokenize{#4}\relax\else\node[anchor=base west, inner sep=0pt, text=kkdark!75!white]
+      at (21\kk@cv@ux,28\kk@cv@uy)
+      {\sffamily\kkgt{3}\fontsize{9\kk@cv@upt}{14\kk@cv@upt}\selectfont #4};\fi
+  \end{tikzpicture}%
+  \clearpage
+}
+
+% ---- 別案表紙「スパイン」 ----
+% 紙面を面で割らず、右端に色の帯（スパイン）を1本通すだけにして、主題は
+% 地の上へ横組みで大きく置く。既定表紙が「紙を2つに割り、暗い欄に主題を
+% 抜く」のに対し、こちらは地をそのまま残すので、黒地の文書では表紙と本文
+% ページの地が一致する。\<prefix>cover とは別名で、置き換えではない。
+%
+% 設計メモ:
+% - 寸法は既定表紙と同じ A4 単位長（\<prefix>@cv@ux/uy/upt）に載せる。判型を
+%   変えれば帯の幅も文字サイズも比例する。
+% - 主題は横組みなので、長い題ほど帯へ食い込む。基準サイズで一度組んで幅を
+%   測り、収まらないときだけ縮小率を掛ける（帯までの余地 157mm 相当）。
+%   既定表紙と同じく、この箱も tikzpicture の外で組む（picture の中は欧文が
+%   nullfont で、数字と欧文が消える）。色も箱の中で置く。
+% - 色は \<prefix>coverSpine ひとつ。既定は accent で、文書側の \definecolor で
+%   差し替えられる。
+\colorlet{kkcoverSpine}{kkaccent}
+\newsavebox{\kk@cv@spbox}
+
+\ExplSyntaxOn
+% 主題を基準サイズで組み、帯までの余地に収まらなければ縮小率を残す。
+\tl_new:N \kk@cv@spscale
+\cs_new_protected:Npn \kk@cv@setspbox #1
+  {
+    \sbox \kk@cv@spbox
+      { \color { kkdark } \sffamily \kkgt{7}
+        \fontsize { 40\kk@cv@upt } { 40\kk@cv@upt } \selectfont #1 }
+    \tl_set:Nx \kk@cv@spscale
+      {
+        \fp_eval:n
+          {
+            min( 1,
+                 \dim_to_fp:n { 157\kk@cv@ux } /
+                 \dim_to_fp:n { \box_wd:N \kk@cv@spbox } )
+          }
+      }
+  }
+\ExplSyntaxOff
+
+\newcommand{\kk@cv@sptitle}{%
+  \node[anchor=base west, inner sep=0pt] at (21\kk@cv@ux,175\kk@cv@uy)
+    {\scalebox{\kk@cv@spscale}{\usebox\kk@cv@spbox}};}
+
+% [anatomy:スパイン表紙]
+\NewDocumentCommand{\kkcoverspine}{ m m m m }{%
+  \clearpage
+  \thispagestyle{empty}%
+  \null
+  \setlength{\kk@cv@ux}{.00476190\paperwidth}%
+  \setlength{\kk@cv@uy}{.00336700\paperheight}%
+  \setlength{\kk@cv@upt}{.00167364\paperwidth}%
+  \kk@cv@setspbox{#2}%
+  \begin{tikzpicture}[remember picture, overlay,
+    shift={(current page.south west)}]
+    % [anatomy:スパイン表紙の帯]
+    % 右端に裁ち落としで通す幅 22mm 相当の色帯。紙面で色を持つのはここだけ
+    \fill[kkcoverSpine]
+      (188\kk@cv@ux,0) rectangle (\paperwidth,\paperheight);
+
+    % [anatomy:スパイン表紙の文字組]
+    % 左端 21mm の柱に、ラベル・主題・区切り罫・副題・フッタを積む
+    \if\relax\detokenize{#1}\relax\else\node[anchor=base west, inner sep=0pt, text=kkcoverSpine]
+      at (21\kk@cv@ux,252\kk@cv@uy)
+      {\sffamily\kkgt{5}\fontsize{10\kk@cv@upt}{15\kk@cv@upt}\selectfont
+       \kk@cv@labeltracked{#1}};\fi
+    \kk@cv@sptitle
+    \draw[kkcoverSpine, line width=1.2pt]
+      (21\kk@cv@ux,160\kk@cv@uy) -- (112\kk@cv@ux,160\kk@cv@uy);
+    \if\relax\detokenize{#3}\relax\else\node[anchor=base west, inner sep=0pt, text=kkdark]
+      at (21\kk@cv@ux,143\kk@cv@uy)
+      {\sffamily\kkgt{5}\fontsize{13\kk@cv@upt}{20\kk@cv@upt}\selectfont #3};\fi
+    \if\relax\detokenize{#4}\relax\else\node[anchor=base west, inner sep=0pt, text=kkdark!75!white]
+      at (21\kk@cv@ux,28\kk@cv@uy)
+      {\sffamily\kkgt{3}\fontsize{9\kk@cv@upt}{14\kk@cv@upt}\selectfont #4};\fi
+  \end{tikzpicture}%
+  \clearpage
+}
+\endinput

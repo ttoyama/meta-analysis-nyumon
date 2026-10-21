@@ -1,0 +1,115 @@
+\begin{chapintro}
+本書の解析は、R と 3 本のスクリプトで再現できます。R を初めて使う読者に向けて、入手、スクリプト一式のダウンロード、作業フォルダの作り方、パッケージのインストール、スクリプトの実行までを順に書き、続けてスクリプトの全文を載せます。スクリプトは本文の各章に分けて載せたコードを 1 本にまとめ直したもので、上から順に実行すれば、スクリプトに含まれる範囲の数値は本文と同じになります。
+\end{chapintro}
+
+\section{R と RStudio の入手}
+\label{sec:A-1}
+
+R は統計解析のための無料のソフトウェアで、CRAN（The Comprehensive R Archive Network）のウェブサイトから、Windows 用と macOS 用のインストーラを入手できます。macOS では、Apple シリコン（M1 以降）用と Intel 用でインストーラが分かれているので、使っている Mac に合うほうを選びます。
+
+RStudio は R を使いやすくするための画面で、スクリプトの編集、実行、結果の表示、図の表示を 1 つの窓にまとめてくれます。R を先に入れ、次に RStudio を入れます。RStudio は Posit 社のウェブサイトから無料版を入手できます。RStudio を起動すると、左上にスクリプト、左下にコンソール（R に命令を打ち込む場所）、右側に変数の一覧と図が表示されます。
+
+\section{スクリプト一式をダウンロードする}
+\label{sec:A-2}
+
+本書の PDF とスクリプトは、GitHub の次のページで公開しています。
+
+\begin{center}\url{https://github.com/ttoyama/meta-analysis-nyumon}\end{center}
+
+本書の PDF と LaTeX のソースは、CC BY-NC 4.0（表示・非営利）で公開しています。出典を示せば、複製して配ることも、手を加えることも自由ですが、販売などの営利の目的には使えません。R のスクリプトは MIT License で、ご自分の解析に組み込んで自由に使えます。
+
+ページの右上の緑の「Code」ボタンから「Download ZIP」を選び、ZIP を展開します。フォルダの中の meta-analysis-nyumon.Rproj をダブルクリックすると RStudio が開き、そのフォルダが作業フォルダになります。続けて 00\_setup.R を開き、エディタの右上の「Source」を押します。このスクリプトは、足りないパッケージを入れ、data、fig、out のフォルダを作り、架空データの CSV を作ります。福井大学の学内 LAN では、大学が学内に置いているプロキシの自動設定ファイルを読み、そこに書かれたプロキシを設定してから続けます。Windows と macOS のどちらでも、同じ手順で動きます。
+
+この手順で準備した読者は、次の「作業フォルダを作る」と「パッケージのインストール」の節を読み飛ばして、「スクリプトの実行」の節に進んでかまいません。
+
+\section{作業フォルダを作る}
+\label{sec:A-3}
+
+解析に使うファイルは 1 つのフォルダにまとめます。次の手順で作ります。
+\begin{enumerate}
+\item 好きな場所に「メタ解析入門」というフォルダを作ります。
+\item RStudio のメニューの File から New Project を選び、Existing Directory で、手順 1 のフォルダを指定します。以後は、プロジェクトを開くだけで、作業フォルダがこのフォルダに設定されます。
+\item そのフォルダの中に、data、fig、out の 3 つのフォルダを作ります。R のコンソールに \texttt{dir.create("data")} のように打っても作れます。
+\item 以後のコードは、このフォルダを作業フォルダとして実行します。スクリプトのファイルは、このフォルダの直下に置きます。
+\end{enumerate}
+
+3 つのフォルダの使い道は次のとおりです。
+\begin{description}
+\item[data] CSV のデータを置きます。\texttt{bp\_stroke.csv}（\kkref{sec:04-4}）と \texttt{pct\_bact.csv}（\kkref{sec:12-10}）が入ります。
+\item[fig] 図の PDF を置きます。
+\item[out] 解析の出力を文字で保存します。
+\end{description}
+
+\section{パッケージのインストール}
+\label{sec:A-4}
+
+R の機能の多くはパッケージという追加部品として配られています。本書では次の 5 つを使います。
+\begin{description}
+\item[meta] 介入のメタ解析（第 1 部）を行います。フォレストプロットとファネルプロットもこのパッケージで描きます。
+\item[metafor] メタ回帰と BCG ワクチンの実データ（\kkref{sec:06-5}）に使います。
+\item[mada] 検査のメタ解析（第 2 部）を行います。二変量モデルの \texttt{reitsma()} と、SROC 曲線の図を担います。
+\item[lme4] 一般化線形混合モデルの \texttt{glmer()} を提供します。\kkref{sec:13-3}で二変量モデルを二項分布のまま当てはめるときに使います。
+\item[MASS] 架空データを作るスクリプト（\texttt{010\_make\_data.R}）が、乱数の生成に使います。R に最初から入っていることが多いのですが、次の行に含めておけば確実です。
+\end{description}
+
+インストールはコンソールで 1 回だけ実行すれば済みます。途中で CRAN のミラー（配布元のサーバー）を聞かれたら、日本のものを選びます。
+\begin{rcode}
+install.packages(c("meta", "metafor", "mada", "lme4", "MASS"))
+\end{rcode}
+
+インストールは一度行えばパッケージがコンピュータに保存されます。R を起動するたびに必要なのは、そのパッケージを使えるようにする \texttt{library()} での読み込みです。
+\begin{rcode}
+library(meta)
+library(mada)
+library(lme4)
+\end{rcode}
+
+macOS では、インストールの途中で「gfortran が見つからない」という趣旨のエラーが出ることがあります。これは、パッケージをソースから組み立てようとして、組み立てに使う道具が手元にないときに起こります。多くの場合は、R を最新版に入れ直すか、インストールの途中で「ソースから組み立てるか」と聞かれたときに no と答えて、CRAN が用意した組み立て済み（バイナリ版）を使えば解決します。
+
+\section{スクリプトの実行}
+\label{sec:A-5}
+
+スクリプトの中の \texttt{"data/pct\_bact.csv"} のような書き方は、作業フォルダからの相対的な位置です。作業フォルダがずれていると「ファイルが見つからない」というエラーになります。本文で最初に使う場面は\kkref{sec:05-5}で説明しています。現在の作業フォルダは \texttt{getwd()} で確かめられます。プロジェクトを使わない場合は、\texttt{setwd()} にフォルダの場所を渡して作業フォルダを変えます。
+
+スクリプトを開いたら、実行したい行にカーソルを置いて Ctrl と Enter（macOS では Command と Enter）を押すと、その行がコンソールに送られて実行されます。複数行を選んでから押せば、選んだ範囲がまとめて実行されます。全体を上から順に実行するには、右上の Source を押します。初めのうちは 1 行ずつ実行し、出力を確かめながら進むと、どの行が何をしているかが分かります。
+
+次の節からスクリプトの全文を載せます。PDF からコードを写すと、全角の記号や改行が崩れることがあります。崩れたときは、エラーの出た行を見て直してください。前の「スクリプト一式をダウンロードする」の節で入手したファイルを使うほうが確実です。
+
+\begin{KKfbox9ao}[R のメモ]
+R はエラーのときに英語で理由を表示します。よく出るのは次の 3 つです。\texttt{could not find function} は、関数の名前の綴りの誤りか、そのパッケージを \texttt{library()} で読み込んでいないことを示します。\texttt{cannot open file} は、作業フォルダかファイル名が違うことを示します。\texttt{object not found} は、その名前の変数をまだ作っていない（前の行を実行していない）ことを示します。
+\end{KKfbox9ao}
+
+\section{架空データの作成（010\_make\_data.R）}
+\label{sec:A-6}
+
+第 1 部の降圧薬 A の 10 試験と、第 2 部の PCT の 10 研究は、どちらもこのスクリプトで作った架空のデータです。乱数の種（\texttt{set.seed()} の値）を固定しているので、何度実行しても同じデータが \texttt{data} フォルダに書き出されます。PCT の 10 研究のカットオフは、0.25 ng/mL が 2 研究、0.5 ng/mL が 6 研究、1 ng/mL が 2 研究になります。QUADAS-2 の判定を入れる 4 つの列（\texttt{q\_pat}、\texttt{q\_idx}、\texttt{q\_ref}、\texttt{q\_flow}）も、同じ CSV ファイルに入ります。第 13 章のコードを最初から実行するときは、先にこのスクリプトを実行して \texttt{data} フォルダに CSV ファイルを作ります。そのうえで、\kkref{sec:13-1}の \texttt{library()} と \texttt{read.csv()} の行から、上の順に実行します。
+
+\VerbatimInput[%
+  breaklines, breakanywhere, fontsize=\footnotesize, frame=leftline,
+  framerule=1.2pt, rulecolor=\color{kkaccent}, framesep=3mm,
+  xleftmargin=1mm, bgcolor=kkcode]{body/code/010_make_data.R}
+
+\section{第 1 部の解析（100\_part1.R）}
+\label{sec:A-7}
+
+\kkchref{5}から\kkchref{7}で示した解析を順に並べています。\texttt{update()} は、すでに作ったメタ解析の設定を一部だけ変えて計算し直す関数で、同じ指定を何度も書かずに済みます。最後の BCG ワクチンの実データは metafor と一緒に入る metadat パッケージに収められています。
+
+\VerbatimInput[%
+  breaklines, breakanywhere, fontsize=\footnotesize, frame=leftline,
+  framerule=1.2pt, rulecolor=\color{kkaccent}, framesep=3mm,
+  xleftmargin=1mm, bgcolor=kkcode]{body/code/100_part1.R}
+
+\section{第 2 部の解析（200\_part2.R）}
+\label{sec:A-8}
+
+\kkchref{13}の解析と、\kkchref{14}のカットオフを共変量にしたモデルを順に並べています。全 10 研究の感度と特異度を計算し、カットオフ 0.5 ng/mL の 6 研究を取り出して、二項 GLMM の二変量モデルを \texttt{glmer()} で当てはめます。相関を推定するモデルは、相関が −1 の境界に張り付いて singular の警告が出ます。そこで相関を 0 にしたモデルに単純化し、そのモデルから要約点と 95\% 信頼区間、陽性尤度比、陰性尤度比、診断オッズ比を計算します。同じ 6 研究を mada の \texttt{reitsma()} で解析する行は、結果を確かめるための参考です。要約点と信頼領域、予測領域の図は、楕円を計算する関数 \texttt{ellipse\_roc()} を定義して描きます。全 10 研究には SROC 曲線だけを引き、log(カットオフ) を共変量にしたモデルを当てはめます。最後に、実データの AUDIT-C を \texttt{reitsma()} と \texttt{glmer()} の両方で解析します。場面を加えたモデル（\kkref{sec:14-3}）、バイアスのリスクによる感度分析（\kkref{sec:14-5}）、1000 人あたりの人数の計算（\kkref{sec:15-1}）は、各節に載せたコードを実行します。
+
+\VerbatimInput[%
+  breaklines, breakanywhere, fontsize=\footnotesize, frame=leftline,
+  framerule=1.2pt, rulecolor=\color{kkaccent}, framesep=3mm,
+  xleftmargin=1mm, bgcolor=kkcode]{body/code/200_part2.R}
+
+\section{動かなかったときに確かめること}
+\label{sec:A-9}
+
+3 本のスクリプトは、R 4.5.3、meta 8.5-0、metafor 5.2-1、mada 0.5.12、lme4 2.0.6 の組み合わせで最後まで実行できることを確かめています。パッケージの版が変わると、出力の見た目や小数の末尾が変わることがあります。数値が本文と大きく違うときは、まず \texttt{010\_make\_data.R}（\kkref{sec:A-6}）を実行し直してデータを作り直し、次に \texttt{sessionInfo()} でパッケージの版を確かめます。本文と同じ数値が出ることを確かめてから自分のデータに置き換えると、エラーの原因がデータにあるのかコードにあるのかを切り分けられます。ファイルが読み込めないときの確認は\kkref{sec:A-5}と\kkref{sec:05-5}に、singular の警告が出るときの読み方は\kkref{sec:13-3}に書いてあります。

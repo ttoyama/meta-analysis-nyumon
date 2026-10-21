@@ -1,0 +1,241 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{kk-sections}[2026/08/11 v1.0.0 Headings and table of contents (ported from 1SNotes)]
+\RequirePackage{kk-layout}
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{tikz}
+\RequirePackage{needspace}
+\RequirePackage{titletoc}
+\RequirePackage{multicol}
+\RequirePackage{kk-flags}
+% ---- 見出しを包むダミー箱（縦アキを tcolorbox に委ねる）----
+% enhanced は tcolorbox の skins ライブラリの機能。合成側が出すのは
+% オプションなしの tcolorbox 読み込みだけなので、ここで自前で読む。
+% （すでに most 等で読み込み済みでも二重読み込みにはならない）
+\tcbuselibrary{skins}
+
+\DeclareTColorBox{kk@dummy@section}{ O{black} O{} }{%
+  enhanced,  before skip=0mm, after skip=2mm,
+  colback=white, colframe=#1, left=-.3mm, right=0mm, boxsep=0mm,
+  #2
+}
+
+\DeclareTColorBox{kk@dummy@subsection}{ O{white} O{} }{%
+  enhanced, before skip=.5mm, after skip=2.8mm,
+  colback=white, colframe=#1, left=.35mm, right=0mm, boxsep=0mm,
+  #2
+}
+
+\DeclareTColorBox{kk@dummy@subsubsection}{ O{black} O{} }{%
+  enhanced, before skip=.8mm, after skip=1mm,
+  colback=white, colframe=#1, left=.5mm, right=0mm, boxsep=0mm,
+  #2
+}
+
+% ---- タイトル長フィット機構 ----
+% タイトル本体の自然な幅 (\settowidth で測定) が指定上限を超えたら
+% \resizebox{上限}{\height}{...} で「横方向のみ」圧縮する（縦方向は \height
+% を指定することで原寸を維持）。番号部分はリサイズ対象外。
+%
+% 引数:
+%   #1: 最終的な描画幅 (番号部 + タイトル部) を格納する length レジスタ
+%   #2: タイトル本体 (#4) に対する上限幅 (dimen 値)
+%   #3: 番号部 (リサイズ対象外。section など番号を別ノードで描く場合は空に)
+%   #4: タイトル本体 (上限超過時のみ \resizebox される)
+%
+% 副作用として \kk@fittedtitle に「番号部 + (必要なら resize された)
+% タイトル」を残す。呼び出し側はこの \kk@fittedtitle をノード本体に置く。
+% [anatomy:タイトル長フィット機構]
+\newlength{\kk@title@natlen}
+\newlength{\kk@title@numlen}
+\newcommand{\kk@fittitle}[4]{%
+  \settowidth{\kk@title@numlen}{#3}%
+  \settowidth{\kk@title@natlen}{#4}%
+  \ifdim\kk@title@natlen>#2\relax
+    \def\kk@fittedtitle{#3\resizebox{#2}{\height}{#4}}%
+    \setlength{#1}{\dimexpr\kk@title@numlen+#2\relax}%
+  \else
+    \def\kk@fittedtitle{#3#4}%
+    \setlength{#1}{\dimexpr\kk@title@numlen+\kk@title@natlen\relax}%
+  \fi
+}
+% タイトルのリサイズ上限幅（適宜調整可）。
+% 見出し描画時点の \columnwidth に対して評価する。
+\newcommand{\kk@section@maxwidth}{.76\columnwidth}
+\newcommand{\kk@subsection@maxwidth}{.72\columnwidth}
+\newcommand{\kk@subsubsection@maxwidth}{.66\columnwidth}
+% 装飾線の上限幅。タイトルのリサイズ上限より先に頭打ちにする。
+\newcommand{\kk@heading@ruleend}{.87\columnwidth}
+\newcommand{\kk@section@rulemaxwidth}{\dimexpr\kk@heading@ruleend-5cm\relax}
+\newcommand{\kk@subsection@rulemaxwidth}{\dimexpr\kk@heading@ruleend-56.85mm\relax}
+\newcommand{\kk@subsubsection@rulemaxwidth}{\dimexpr\kk@heading@ruleend-2cm-1.1mm\relax}
+\newcommand{\kk@subsubsection@ruleend}{\dimexpr\kk@heading@ruleend-.34mm\relax}
+\newcommand{\kk@caplength}[2]{%
+  \ifdim#1>#2\relax
+    \setlength{#1}{#2}%
+  \fi
+}
+
+% ---- section ----
+\newlength{\kk@sectitlelen}
+\renewcommand*\thesection{\arabic{section}}
+% [anatomy:節見出し]
+\renewcommand{\section}{\@ifstar{\kk@section@star}{\kk@section@normal}}
+\newcommand{\kk@section@normal}[1]{%
+  \kk@heading@pre%
+  \refstepcounter{section}%
+  \addcontentsline{toc}{section}{\thesection\quad #1}%
+  \kk@section@typeset{\thesection}{#1}%
+  \kk@heading@post%
+}
+\newcommand{\kk@section@star}[1]{%
+  \kk@heading@pre%
+  \kk@section@typeset{\S}{#1}%
+  \kk@heading@post%
+}
+\newcommand{\kk@section@typeset}[2]{%
+  \needspace{3\baselineskip}%
+  \kk@fittitle{\kk@sectitlelen}{\kk@section@maxwidth}%
+    {}% 番号部は別ノードで描画されるためここでは空
+    {\fontsize{15pt}{0pt}\kkgt{4}#2}%
+  \kk@caplength{\kk@sectitlelen}{\kk@section@rulemaxwidth}%
+  \begin{kk@dummy@section}[white][bottom=6mm,top=7mm]
+    \begin{tikzpicture}
+      \begin{scope}[xshift=-.3mm]
+        \draw[line width=.5pt, overlay, black!60] (.05,.05) -- (\kk@sectitlelen+5cm,.05);
+        \filldraw[fill=black!70, draw=black!70, line width=0.4pt, overlay] (0,0) rectangle (.1,.1);
+        \filldraw[fill=black!70, draw=black!70, line width=0.4pt, overlay,xshift=\kk@sectitlelen+5cm] (0,0) rectangle (.1,.1);
+
+        \begin{scope}[xshift=-2mm]
+          \filldraw[fill=black!30, draw=black!70, line width=0.4pt, overlay,xshift=5mm] (.2,-.55) rectangle (.3,.65);
+          \node[overlay, anchor=south west] at (.95,.05) {\fontsize{13pt}{0pt}\kkgt{5}\color{kkaccent}\kkcurchap.#1};
+          \node[overlay, anchor=north west, yshift=.3mm] at (1.2,.05) {\kk@fittedtitle};
+        \end{scope}
+      \end{scope}
+    \end{tikzpicture}%
+  \end{kk@dummy@section}%
+}
+
+% ---- subsection ----
+\newlength{\kk@subsectitlelen}
+% [anatomy:小節見出し]
+\renewcommand{\subsection}{\@ifstar{\kk@subsection@star}{\kk@subsection@normal}}
+\newcommand{\kk@subsection@normal}[1]{%
+  \kk@heading@pre%
+  \refstepcounter{subsection}%
+  \addcontentsline{toc}{subsection}{\thesubsection\quad #1}%
+  \kk@subsection@typeset{\thesubsection}{#1}%
+  \kk@heading@post%
+}
+\newcommand{\kk@subsection@star}[1]{%
+  \kk@heading@pre%
+  \kk@subsection@typeset{\S}{#1}%
+  \kk@heading@post%
+}
+\newcommand{\kk@subsection@typeset}[2]{%
+  \needspace{4\baselineskip}%
+  \kk@fittitle{\kk@subsectitlelen}{\kk@subsection@maxwidth}%
+    {\fontsize{13pt}{0pt}\textit{#1}\hspace*{\zw}}% 番号部 (リサイズ対象外)
+    {\fontsize{13pt}{0pt}\kkgt{4} #2}% タイトル本体
+  \kk@caplength{\kk@subsectitlelen}{\kk@subsection@rulemaxwidth}%
+  \begin{kk@dummy@subsection}[white][top=6.8mm,bottom=.8mm]
+    \begin{tikzpicture}
+      \begin{scope}[xshift=-.5mm]
+        \draw[line width=.5pt, overlay, black!80] (.03,.03) -- (\kk@subsectitlelen+5.74cm,.03);
+        \filldraw[fill=black!60, draw=black!60, line width=0.4pt, overlay, xshift=-.4mm, yshift=-.2mm] (0,0) rectangle (.1,.1);
+        \filldraw[fill=black!30, draw=black!70, line width=0.4pt, overlay, xshift=-2.5mm, yshift=-.2mm] (.7,-.05) rectangle (.8,.63);
+        \node[anchor=south west, overlay] at (.9,.01) {\kk@fittedtitle};
+        \filldraw[fill=black!60, draw=black!60, line width=0.4pt, overlay, yshift=-.2mm] (\kk@subsectitlelen+5.74cm-1mm,0) rectangle (\kk@subsectitlelen+5.74cm,.1);
+      \end{scope}
+    \end{tikzpicture}%
+  \end{kk@dummy@subsection}%
+}
+
+% ---- subsubsection ----
+\newlength{\kk@subsubsectitlelen}
+% [anatomy:小々節見出し]
+\renewcommand{\subsubsection}{\@ifstar{\kk@subsubsection@star}{\kk@subsubsection@normal}}
+\newcommand{\kk@subsubsection@normal}[1]{%
+  \kk@heading@pre%
+  \refstepcounter{subsubsection}%
+  \addcontentsline{toc}{subsubsection}{▷\hspace{.3\zw}#1}%
+  \kk@subsubsection@typeset{\thesubsubsection}{#1}%
+  \kk@heading@post%
+}
+\newcommand{\kk@subsubsection@star}[1]{%
+  \kk@heading@pre%
+  \kk@subsubsection@typeset{\S}{#1}%
+  \kk@heading@post%
+}
+\newcommand{\kk@subsubsection@typeset}[2]{%
+  \needspace{3.5\baselineskip}%
+  \kk@fittitle{\kk@subsubsectitlelen}{\kk@subsubsection@maxwidth}%
+    {\fontsize{12pt}{0pt}\textit{#1}\hspace*{\zw}}% 番号部 (リサイズ対象外)
+    {\fontsize{12pt}{0pt}{\kkgt{4}#2}\hspace*{\zw}}% タイトル本体
+  \begin{kk@dummy@subsubsection}[white][top=.6mm,bottom=.8mm]
+    \begin{tikzpicture}
+      \path[use as bounding box] (-.05,-.38) rectangle (\kk@subsubsection@ruleend+1.5mm,.28);
+      \draw[draw=black!60,overlay] (-.05,.025) -- (.5,.025);
+      \node[anchor=west,overlay] at (.55,.07) {\kk@fittedtitle};
+      \draw[draw=black!60,overlay] (.75cm+\kk@subsubsectitlelen,.025) -- (\kk@subsubsection@ruleend,.025);
+      \filldraw[fill=black!40, draw=black!40, line width=0.4pt, overlay, xshift=-1.53mm, yshift=-.25mm] (0,0) rectangle (.1,.1);
+      \filldraw[fill=black!40, draw=black!40, line width=0.4pt, overlay, yshift=-.25mm] (\kk@subsubsection@ruleend,0) rectangle (\kk@subsubsection@ruleend+1mm,.1);
+    \end{tikzpicture}
+  \end{kk@dummy@subsubsection}%
+}
+
+% ---- 目次（KKsetLocal_toc の移植）----
+% 見出し側は本文ページを、こちら側は .toc の組み方だけを受け持つ。
+% 既定は section と subsection まで。文書側で tocdepth=3 に上書きしてよい。
+\setcounter{tocdepth}{2}
+
+\NewDocumentCommand{\kk@toc@leader}{m}{%
+  \hspace{.4\zw}\nobreak
+  \leaders\hbox{%
+    \hspace{1.5pt}%
+    {\color{black!35}\rule[.26ex]{2pt}{.4pt}}%
+    \hspace{1.5pt}%
+  }\hfill
+  \nobreak\hspace{.4\zw}#1%
+}
+
+% 2 段組の詰めた目次。文書の段落アキと字下げが直後に戻るよう group で囲う。
+% 目次の後は必ず改ページする（冊子では目次と本文 1 ページ目は同じ紙に載らない）。
+% 続けたい場合だけ \renewcommand{\<prefix>@toc@after}{} で無効にする。
+% [anatomy:2段組目次]
+\newcommand{\kk@toc@after}{\clearpage}
+\RenewDocumentCommand{\tableofcontents}{}{%
+  \begingroup
+    \setlength{\parskip}{0pt}%
+    \setlength{\parindent}{0pt}%
+    \setlength{\multicolsep}{0pt}%
+    \begin{multicols}{2}%
+      \setlength{\columnseprule}{0pt}%
+      \setlength{\topskip}{0pt}%
+      \raggedcolumns
+      \@starttoc{toc}%
+    \end{multicols}%
+  \endgroup
+  \kk@toc@after
+}
+
+\titlecontents{section}
+  [0pt]
+  {\addvspace{2.4pt}\small\kkgt{4}\color{black!88}}
+  {}
+  {\raisebox{.1ex}{\color{black!70}\rule{.5ex}{.5ex}}\hspace{.5\zw}}
+  {\kk@toc@leader{\small\color{black!75}\contentspage}}
+
+\titlecontents{subsection}
+  [1.4\zw]
+  {\addvspace{0.8pt}\footnotesize\kkgt{2}\color{black!72}}
+  {}
+  {\raisebox{.1ex}{\color{black!48}\rule{.42ex}{.42ex}}\hspace{.45\zw}}
+  {\kk@toc@leader{\footnotesize\color{black!60}\contentspage}}
+
+\titlecontents{subsubsection}
+  [2.8\zw]
+  {\addvspace{0.4pt}\footnotesize\color{black!58}}
+  {}
+  {}
+  {\kk@toc@leader{\footnotesize\color{black!55}\contentspage}}
+\endinput

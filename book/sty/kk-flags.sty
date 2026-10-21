@@ -1,0 +1,38 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{kk-flags}[2026/08/11 v1.0.0 Shared heading-gap flag (ported from KKsetLocal_flags)]
+% ---- 見出しアキ機構（KKsetLocal_flags / secflagset の移植）----
+% 直前も見出しなら post 側で入れた .3 行を打ち消し、本文の後なら 2 行アキ。
+% 本文段落が始まるたびフラグを戻す。
+% 見出しに見える部品はすべてこの 2 つを通す。節見出し（<prefix>-sections）も
+% ミニ見出し（<prefix>-patterns）も同じフラグを共有するので、種類をまたいで
+% 連続しても間隔は一定になる。
+% [anatomy:見出しアキ機構]
+\newif\ifkk@lastisheading
+\kk@lastisheadingfalse
+
+% 段落開始直前でリセット（本文段落）
+\AddToHook{para/before}{\global\kk@lastisheadingfalse}
+
+% 前置用
+\newcommand{\kk@heading@pre}{%
+  \ifkk@lastisheading
+    % post 側で入れた .3\baselineskip を打ち消すために入れる
+    \vspace{-.3\baselineskip}%
+  \else
+    % 見出しが連続していない場合、見出しの前に 2 行ドリ
+    \vspace{2\baselineskip}%
+  \fi
+}
+
+% 後置用
+\newcommand{\kk@heading@post}{%
+  \global\kk@lastisheadingtrue%
+  % 下に来るテキストとの間隔
+  \vspace{.3\baselineskip}%
+}
+
+% 開始時 false
+\AtBeginDocument{%
+  \global\kk@lastisheadingfalse
+}
+\endinput

@@ -1,0 +1,288 @@
+\begin{chapintro}
+本文で使った用語を、英語の用語、日本語の用語、ギリシア文字と記号の 3 つの節に分けて並べます。英語の用語は ABC 順、日本語の用語は 50 音順です。各項目の末尾に、主に説明した節とそのページを示します。
+\end{chapintro}
+
+\section{英語の用語}
+\label{sec:B-1}
+
+見出し語の横の小さな字は、読み方の目安です。略語には、単語のように読むものと、1 文字ずつ読むものがあります。人名は原語に近い読みを当てたもので、日本語の文献では別の読み方をされることがあります。
+
+\subsection*{A}
+\begin{description}
+\item[AUC\kkyomi{エーユーシー}] Area Under the Curve（曲線下面積）の略で、ROC 曲線や SROC 曲線の下の面積です。1 に近いほど、疾患のある人とない人を全体としてよく分けられることを示します。特定のカットオフでの性能は表しません。（\kkref{sec:09-5}、\kkref{sec:13-8}）
+\item[AUDIT-C\kkyomi{オーディット・シー}] Alcohol Use Disorders Identification Test の短縮版で、飲酒の問題を見つけるための 3 問の質問票です。第 2 部で、14 本の研究からなる実データの例題に使います。（\kkref{sec:13-9}）
+\end{description}
+
+\subsection*{B}
+\begin{description}
+\item[Baujat プロット\kkyomi{ボジャ}] 各試験を、異質性（Q）への寄与を横軸、その試験を除いて統合し直したときの統合結果の動きを縦軸にとって、1 点として置く図です。異質性の原因を探すための図で、外れた試験を解析から除く根拠にはなりません。（\kkref{sec:06-2}）
+\item[BCG\kkyomi{ビーシージー}] Bacille Calmette-Guérin の略で、結核を予防するワクチンです。第 1 部の実データの例題に、BCG ワクチンの 13 本のランダム化比較試験を使います。（\kkref{sec:06-5}）
+\end{description}
+
+\subsection*{C}
+\begin{description}
+\item[CENTRAL\kkyomi{セントラル}] Cochrane Central Register of Controlled Trials の略で、Cochrane が集めた比較試験の登録簿です。他のデータベースから抽出した試験や、学会抄録の試験も含まれます。（\kkref{sec:03-1}）
+\item[CI\kkyomi{シーアイ}] confidence interval の略で、信頼区間のことです。（\kkref{sec:01-1}）
+\item[ClinicalTrials.gov\kkyomi{クリニカルトライアルズ・ドット・ガブ}] 米国の試験登録のデータベースです。結果が論文にならなかった試験も見つかるので、出版バイアスを小さくするために検索します。（\kkref{sec:03-1}、\kkref{sec:07-5}）
+\item[Cochrane\kkyomi{コクラン}] 系統的レビューの作成を支援する国際的な組織です。介入のレビューの手引きである Cochrane ハンドブックと、検査の精度のレビューの手引きである Cochrane DTA ハンドブックを出しており、本書でたびたび引用します。（\kkref{sec:03-3}、\kkref{sec:10-6}）
+\item[Core GRADE\kkyomi{コア・グレード}] GRADE を簡略にして使いやすくした手引きです。本書では、非一貫性と不精確さの判断で引用します。（\kkref{sec:07-8}）
+\item[CRAN\kkyomi{クラン}] The Comprehensive R Archive Network の略で、R 本体とパッケージの配布元です。（\kkref{sec:A-1}）
+\item[CRP\kkyomi{シーアールピー}] C 反応性蛋白（C-reactive protein）です。第 2 部の例題で、PCT と精度を比べる検査として出てきます。（\kkref{sec:14-6}）
+\item[CSV\kkyomi{シーエスブイ}] comma-separated values の略で、項目をカンマで区切って並べたテキストの形式です。取り出したデータを保存して R に読み込むために使います。（\kkref{sec:04-4}）
+\item[CV\kkyomi{シーブイ}] coefficient of variation（変動係数）の略で、測定のぶれの相対的な大きさです。第 5 章では、CV の小さい測定ほど信用するという精度管理の感覚を、重みの付け方の説明に使います。（\kkref{sec:05-1-3}）
+\end{description}
+
+\subsection*{D}
+\begin{description}
+\item[Deeks の検定\kkyomi{ディークス}] 検査のメタ解析で小規模研究効果を調べる検定です。有効な標本の大きさと診断オッズ比の関係を見ます。診断オッズ比に研究間の異質性があると検出力がとくに低く、有意でなくても出版バイアスがないとは言えません。（\kkref{sec:10-8}、\kkref{sec:15-2-3}）
+\item[DerSimonian-Laird 法（DL 法）\kkyomi{ダーシモニアン・レアード}] ランダム効果モデルで τ² を推定する、古くからの方法です。多くのソフトの既定値でしたが、試験数が少ないと τ² を小さく見積もりやすいことが知られています。（\kkref{sec:05-7-1}）
+\item[diagmeta\kkyomi{ダイアグメタ}] 1 つの研究が複数のカットオフで報告した感度と特異度をすべて使い、カットオフごとの感度と特異度と、カットオフをまたぐ曲線を推定する R のパッケージです。Steinhauser らの方法を実装しています。本書では名前の紹介にとどめます。（\kkref{sec:14-4}）
+\item[DOR\kkyomi{ディーオーアール}] diagnostic odds ratio の略で、診断オッズ比のことです。（\kkref{sec:09-4}）
+\item[DTA\kkyomi{ディーティーエー}] diagnostic test accuracy（診断精度）の略です。Cochrane DTA ハンドブックや PRISMA-DTA の名前に入っています。（\kkref{sec:09-7}、\kkref{sec:10-6}）
+\end{description}
+
+\subsection*{E}
+\begin{description}
+\item[Egger 検定\kkyomi{エッガー}] ファネルプロットの非対称を調べる回帰の検定です。介入のメタ解析で使い、試験数が少ないと検出力が低くなります。オッズ比のときは Harbord の検定や Peters の検定を使います。検査のメタ解析では使わず、Deeks の検定を使います。（\kkref{sec:07-3}）
+\item[Embase\kkyomi{エンベース}] Excerpta Medica dataBASE の略で、欧州の雑誌や、薬剤に関する雑誌の収録が厚い有料のデータベースです。MEDLINE と重複しない論文がかなり含まれます。（\kkref{sec:03-1}）
+\end{description}
+
+\subsection*{F}
+\begin{description}
+\item[FN\kkyomi{エフエヌ}] false negative の略で、偽陰性です。2×2 表で、疾患があるのに検査が陰性になった人の数です。（\kkref{sec:09-1}）
+\item[FP\kkyomi{エフピー}] false positive の略で、偽陽性です。2×2 表で、疾患がないのに検査が陽性になった人の数です。（\kkref{sec:09-1}）
+\end{description}
+
+\subsection*{G}
+\begin{description}
+\item[GitHub\kkyomi{ギットハブ}] プログラムやデータを公開するための Web サービスです。解析のコードを公開する場所の例として出てきます。（\kkref{sec:08-4}）
+\item[glmer\kkyomi{ジーエルエムイーアール}] lme4 パッケージの関数で、一般化線形混合モデルを当てはめます。本書では、二変量モデルを二項分布のまま当てはめるために使います。MetaDTA も内部で使っています。（\kkref{sec:13-3}）
+\item[GLMM\kkyomi{ジーエルエムエム}] generalized linear mixed model の略で、一般化線形混合モデルのことです。（\kkref{sec:13-3}）
+\item[GRADE\kkyomi{グレード}] Grading of Recommendations, Assessment, Development and Evaluation の略で、エビデンスの確実性を判定し、推奨の強さを決める枠組みです。バイアスのリスク、非一貫性、非直接性、不精確さ、出版バイアスの 5 つの要因で確実性を下げます。（\kkref{sec:07-8}、\kkref{sec:15-2}）
+\end{description}
+
+\subsection*{H}
+\begin{description}
+\item[Harbord 検定、Peters 検定\kkyomi{ハーボード、ピーターズ}] 効果指標がオッズ比のときに、ファネルプロットの非対称を調べる検定です。Cochrane ハンドブックは、オッズ比では Egger 検定の代わりにこれらを使うよう勧めています。（\kkref{sec:07-3}）
+\item[HKSJ 法\kkyomi{エイチケーエスジェイ}] Hartung、Knapp、Sidik、Jonkman（ハルトゥング、クナップ、シディク、ヨンクマン）の名前をとった方法です。ランダム効果モデルの信頼区間を、研究間分散の推定の不確かさも含めて計算し直す方法で、Hartung-Knapp 調整とも呼ばれます。たいていは区間が広がりますが、試験が 2、3 本のときは広すぎ、τ² が 0 と推定されたときは狭すぎることがあるため、試験数が少ないときは通常の方法と比べる感度分析を勧められています。（\kkref{sec:05-7}、\kkref{sec:05-7-1}）
+\item[HSROC モデル\kkyomi{エイチエスアールオーシー}] hierarchical summary receiver operating characteristic の略で、Rutter と Gatsonis が提案した、検査の精度を曲線として要約する階層モデルです。共変量がなければ二変量モデルと同じモデルの別の表し方になります（Harbord 2007）。（\kkref{sec:10-5}）
+\end{description}
+
+\subsection*{I}
+\begin{description}
+\item[I²\kkyomi{アイ二乗}] 効果のばらつきのうち、偶然では説明できない部分が占める割合です。割合なので、ばらつきの大きさそのものは表しません。検査のメタ解析では値が大きくなりやすく、使いにくい指標です。（\kkref{sec:06-1}、\kkref{sec:10-7}）
+\item[ICTRP\kkyomi{アイシーティーアールピー}] International Clinical Trials Registry Platform の略で、WHO の試験登録のデータベースです。（\kkref{sec:03-1}）
+\item[ICU\kkyomi{アイシーユー}] intensive care unit（集中治療室）の略です。第 2 部の例題で、救急外来の患者と ICU の重症患者とでは対象が違い、有病割合が違うことの例に出てきます。（\kkref{sec:09-3}、\kkref{sec:14-1}）
+\item[ITT\kkyomi{アイティーティー}] intention-to-treat の略です。割り付けた全員を、割り付けた群のまま解析する方法で、効果の推定には ITT 解析の数を使うのが原則です。（\kkref{sec:04-2}）
+\end{description}
+
+\subsection*{J}
+\begin{description}
+\item[jRCT\kkyomi{ジェイアールシーティー}] Japan Registry of Clinical Trials の略で、臨床研究の計画を登録する日本のデータベースです。（\kkref{sec:03-1}、\kkref{sec:07-5}）
+\end{description}
+
+\subsection*{L}
+\begin{description}
+\item[L'Abbé プロット\kkyomi{ラベ}] 各試験の 2 つの群の発症割合そのものを、1 試験を 1 点として置く図です。横軸にプラセボ群、縦軸に介入群の発症割合をとります。（\kkref{sec:05-9}）
+\item[lme4\kkyomi{エルエムイーフォー}] 一般化線形混合モデルの glmer() を提供する R のパッケージです。（\kkref{sec:13-3}、\kkref{sec:A-4}）
+\item[logit\kkyomi{ロジット}] 割合 p を、p を 1 − p で割った値の対数に変換したものです。0 から 1 の範囲の割合を、数直線全体に広げます。二変量モデルは感度と特異度をこの尺度で扱います。（\kkref{sec:10-3}）
+\end{description}
+
+\subsection*{M}
+\begin{description}
+\item[mada\kkyomi{マダ}] 検査のメタ解析を行う R のパッケージです。二変量モデルの reitsma() と、SROC 曲線の図を担います。（\kkref{sec:13-1}、\kkref{sec:A-4}）
+\item[Mantel-Haenszel 法（MH 法）\kkyomi{マンテル・ヘンツェル}] 固定効果モデルの統合に使う方法です。事象の少ない試験が多いときに逆分散法より安定し、RevMan の既定値でもあります。meta パッケージの metabin では、method = "MH" と指定すると使えます。ランダム効果モデルは逆分散法のままです。（\kkref{sec:05-6}）
+\item[MD\kkyomi{エムディー}] mean difference の略で、平均差のことです。（\kkref{sec:05-2}）
+\item[MECIR\kkyomi{エムイーシーアイアール}] Methodological Expectations of Cochrane Intervention Reviews の略で、Cochrane が介入のレビューに求める方法の基準です。（\kkref{sec:03-3}）
+\item[MEDLINE\kkyomi{メドライン}] 米国国立医学図書館のデータベースで、PubMed から無料で使えます。医学の主要な雑誌はほぼ収録されています。（\kkref{sec:03-1}）
+\item[MeSH\kkyomi{メッシュ}] Medical Subject Headings の略で、MEDLINE が論文に付けている統制語です。たとえば Hypertension という MeSH を指定すると、論文の中で high blood pressure と書かれていても拾えます。（\kkref{sec:03-2}）
+\item[meta\kkyomi{メタ}] 介入のメタ解析を行う R のパッケージです。フォレストプロットとファネルプロットもこのパッケージで描きます。（\kkref{sec:05-6}、\kkref{sec:A-4}）
+\item[metadat\kkyomi{メタダット}] metafor と一緒に入る、メタ解析の例題データを収めた R のパッケージです。BCG ワクチンの実データ（dat.bcg）が入っています。（\kkref{sec:06-5}）
+\item[MetaDTA\kkyomi{メタディーティーエー}] 診断精度のメタ解析を R のコードを書かずに行える、無料の Web ツールです。内部で glmer() を使い、2×2 表の CSV ファイルを読み込ませると要約点と SROC 曲線が出ます。Cochrane の DTA ハンドブックの執筆時点（2.0 版）では、共変量を入れる解析はできませんでした。（\kkref{sec:13-4}）
+\item[metafor\kkyomi{メタフォー}] メタ回帰に使う R のパッケージです。（\kkref{sec:06-5}、\kkref{sec:A-4}）
+\item[Moses-Littenberg 法\kkyomi{モーゼス・リッテンバーグ}] 研究ごとの診断オッズ比の対数を、感度と偽陽性割合から作った閾値の代わりの量に回帰させて、SROC 曲線を描く方法です。古い検査のメタ解析で使われてきました。簡便ですが、研究間のばらつきを組み込まない固定効果の方法で、二変量モデルと HSROC モデルが取って代わりました。（\kkref{sec:10-2}）
+\end{description}
+
+\subsection*{O}
+\begin{description}
+\item[OR\kkyomi{オーアール}] odds ratio の略で、オッズ比のことです。検索式では、どちらかの語を含む文献を拾う論理演算子の OR も出てきます。（\kkref{sec:03-2}、\kkref{sec:05-2}）
+\item[OSF\kkyomi{オーエスエフ}] Open Science Framework の略で、データや解析のコードを公開できる Web サービスです。（\kkref{sec:08-4}）
+\end{description}
+
+\subsection*{P}
+\begin{description}
+\item[p 値\kkyomi{ピーち}] 差がないと仮定したときに、観察された差かそれ以上の差が、偶然だけで生じる確率です。論文には、点推定に信頼区間を添えて書き、p 値だけを書くことはしません。（\kkref{sec:06-1}、\kkref{sec:08-3}）
+\item[Paule-Mandel 法\kkyomi{ポール・マンデル}] τ² の推定法の一つです。REML とともに、現在勧められることが多い方法です。（\kkref{sec:05-7-1}）
+\item[PCT\kkyomi{ピーシーティー}] procalcitonin（プロカルシトニン）の略で、細菌感染で上がる血液の検査項目です。第 2 部の例題で、菌血症を見分ける対象検査に使います。（\kkref{sec:09-1}）
+\item[Peto 法\kkyomi{ピート}] 各試験で観察された事象数と、群の差がないと仮定したときに期待される事象数との差から、オッズ比を直接求める方法です。連続補正が要らないので、事象が 0 件の群があっても使えますが、オッズ比にしか使えません。事象がまれなときの方法の一つです。（\kkref{sec:05-6}）
+\item[PICO\kkyomi{ピコ}] Patient（対象）、Intervention（介入）、Comparison（比較）、Outcome（アウトカム）の頭文字をとった、問いを書き下す型です。（\kkref{sec:02-1}）
+\item[PRISMA 2020\kkyomi{プリズマ}] Preferred Reporting Items for Systematic reviews and Meta-Analyses の略で、系統的レビューとメタ解析の報告指針です。27 項目のチェックリストとフロー図からなります。（\kkref{sec:08-1}、\kkref{sec:03-5}）
+\item[PRISMA-DTA\kkyomi{プリズマ・ディーティーエー}] 診断精度のレビューのための PRISMA の拡張版です。対象検査と参照基準、カットオフ、バイアスの評価、精度の統合方法の報告を求めます。（\kkref{sec:15-3}）
+\item[PRISMA-P\kkyomi{プリズマ・ピー}] Preferred Reporting Items for Systematic review and Meta-Analysis Protocols の略で、レビューの計画書（プロトコル）に書く項目をまとめた書式です。（\kkref{sec:02-4}）
+\item[PRISMA-S\kkyomi{プリズマ・エス}] 系統的レビューの文献検索の報告を詳しく書くための PRISMA 2020 の拡張版です。使った情報源、検索式、フィルターと制限、検索日などの書き方を定めています。（\kkref{sec:08-1}）
+\item[PROSPERO\kkyomi{プロスペロ}] International Prospective Register of Systematic Reviews の略で、系統的レビューの計画書を登録する国際的なウェブサイトです。登録番号が付き、計画の内容と登録日が公開されます。（\kkref{sec:02-4}）
+\item[PubMed\kkyomi{パブメド}] MEDLINE を無料で検索できる Web サービスです。（\kkref{sec:03-1}）
+\end{description}
+
+\subsection*{Q}
+\begin{description}
+\item[Q 統計量\kkyomi{キュー}] 各試験の推定値が統合した値からどれだけ離れているかを、重みを付けて 2 乗して足した値です。試験の結果のばらつきが偶然だけなら、Q はおおよそ自由度（試験数 − 1）くらいの値になります。Q を使った異質性の検定があり、降圧薬 A では Q = 18.30、p 値は 0.032 でした。（\kkref{sec:06-1}）
+\item[QUADAS-2、QUADAS-3\kkyomi{クワダス}] Quality Assessment of Diagnostic Accuracy Studies の略で、診断精度研究のバイアスのリスクと適用可能性を評価する道具です。QUADAS-2 は 4 つの領域（患者選択、対象検査、参照基準、フローとタイミング）で判定します。2026 年に改訂版の QUADAS-3 が公表されました。（\kkref{sec:12-4}、\kkref{sec:12-9}）
+\item[QUADAS-C\kkyomi{クワダス・シー}] 検査どうしを比べる研究のバイアスのリスクを評価する道具です。QUADAS-2 と同じ 4 つの領域に、全員が両方の検査を受けたか、一方の検査の判定者が他方の結果を知らなかったかといった、比較に特有の質問を加えています。（\kkref{sec:14-6}）
+\end{description}
+
+\subsection*{R}
+\begin{description}
+\item[R\kkyomi{アール}] 統計解析のための無料のソフトウェアです。CRAN から入手します。（\kkref{sec:A-1}）
+\item[R²\kkyomi{アール二乗}] メタ回帰で、試験間の真の効果のばらつき τ² のうち、説明に使った変数で説明できた部分の割合です。第 6 章の例では、緯度で 76\% を説明できました。（\kkref{sec:06-5}）
+\item[Rayyan\kkyomi{ライヤン}] 題名と抄録の選別に使える、専用のツールの一つです。（\kkref{sec:03-3}）
+\item[RCT\kkyomi{アールシーティー}] randomized controlled trial の略で、ランダム化比較試験です。参加者をくじ引きのような方法で 2 つの群に分け、一方に調べたい薬剤を、もう一方にプラセボを投与して、その後の経過を比べる研究です。（\kkref{sec:01-1}）
+\item[RD\kkyomi{アールディー}] risk difference の略で、リスク差のことです。（\kkref{sec:05-2}）
+\item[Reitsma\kkyomi{ライツマ}] 二変量モデルを 2005 年に提案した研究者の名前です。mada の reitsma() 関数の名前の由来でもあります。元の方法は、研究ごとの logit 感度と logit 偽陽性割合を正規分布で近似するので、人数の少ない研究では近似が悪くなります。（\kkref{sec:10-4}、\kkref{sec:10-4-1}）
+\item[REML\kkyomi{アールイーエムエル、レムル}] restricted maximum likelihood の略で、制限付き最尤法です。ランダム効果モデルの τ² の推定法の一つで、meta パッケージの既定値です。本書の例題でも使います。（\kkref{sec:05-7}）
+\item[RevMan\kkyomi{レブマン}] Cochrane が系統的レビューの作成に使うソフトウェアです。（\kkref{sec:05-6}）
+\item[RoB 2\kkyomi{ロブ・ツー}] revised Cochrane risk-of-bias tool for randomized trials の略で、ランダム化比較試験のバイアスのリスクを評価する道具です。5 つの領域を判定し、全体を「低」「懸念あり」「高」にまとめます。（\kkref{sec:04-3}）
+\item[ROB-ME\kkyomi{ロブ・エムイー}] Risk Of Bias due to Missing Evidence の略で、系統的レビューで、結果が欠けていること（研究の中の未報告の結果と、研究の間の未発表の試験）によるバイアスのリスクを評価する道具です。ファネルプロットや検定が調べる小規模研究効果とは別に、欠けた理由が結果に左右されていないかを構造的に判定します。（\kkref{sec:07-4}）
+\item[ROBINS-I\kkyomi{ロビンス・アイ}] Risk Of Bias In Non-randomised Studies of Interventions の略で、非ランダム化研究のバイアスのリスクを評価する道具です。交絡や対象者の選び方による偏りを、仮想的なランダム化試験と比べる形で判定します。（\kkref{sec:04-3}）
+\item[ROC 曲線\kkyomi{アールオーシー}] receiver operating characteristic（受信者操作特性）の曲線で、カットオフを動かしたときの感度と偽陽性割合の組を、縦軸に感度、横軸に偽陽性割合をとって結んだものです。曲線の下の面積が AUC です。（\kkref{sec:09-5}）
+\item[RR\kkyomi{アールアール}] risk ratio の略で、リスク比のことです。（\kkref{sec:05-2}）
+\item[RStudio\kkyomi{アールスタジオ}] R を使いやすくするための画面で、スクリプトの編集、実行、結果の表示、図の表示を 1 つの窓にまとめます。（\kkref{sec:05-5}、\kkref{sec:A-1}）
+\end{description}
+
+\subsection*{S}
+\begin{description}
+\item[SD\kkyomi{エスディー}] standard deviation の略で、標準偏差です。測定値のばらつきの大きさを表し、分散は SD を 2 乗した値です。（\kkref{sec:05-1-1}）
+\item[SMD\kkyomi{エスエムディー}] standardized mean difference の略で、標準化平均差のことです。（\kkref{sec:05-2}）
+\item[SROC 曲線\kkyomi{エスアールオーシー}] summary ROC curve の略で、複数の研究の精度を、1 本の ROC 曲線として要約したものです。カットオフが混ざった研究も含めた全研究で曲線を描き、曲線上の 1 点を要約点として報告しません。観測された偽陽性割合の範囲の外まで延ばして読むこともしません。（\kkref{sec:10-6}、\kkref{sec:13-8}）
+\item[STARD 2015\kkyomi{スタード}] Standards for Reporting of Diagnostic Accuracy の略で、個々の診断精度研究を報告するときの指針です（Bossuyt 2015）。研究を行う人が論文を書くときに使います。メタ解析の報告には使いません。（\kkref{sec:09-7}）
+\end{description}
+
+\subsection*{T}
+\begin{description}
+\item[TN\kkyomi{ティーエヌ}] true negative の略で、真陰性です。2×2 表で、疾患がなく検査も陰性になった人の数です。（\kkref{sec:09-1}）
+\item[TP\kkyomi{ティーピー}] true positive の略で、真陽性です。2×2 表で、疾患があり検査も陽性になった人の数です。（\kkref{sec:09-1}）
+\item[trim and fill\kkyomi{トリムアンドフィル}] ファネルプロットが左右対称になるように、欠けているとみなした研究を補って統合し直す方法です。論文ではよく見かけますが、強い仮定に立つため、現行の Cochrane ハンドブックでは扱っていません。補った値を補正後の効果として読まないようにします。（\kkref{sec:07-4}）
+\end{description}
+
+\subsection*{W}
+\begin{description}
+\item[WHO\kkyomi{ダブリューエイチオー}] World Health Organization（世界保健機関）の略です。試験登録の ICTRP を運営しています。（\kkref{sec:03-1}）
+\end{description}
+
+\section{日本語の用語}
+\label{sec:B-2}
+
+日本語の用語は、読みの 50 音順に並べています。論文を読むときの手がかりとして、英語の綴りを添えたものがあります。
+
+\subsection*{あ行}
+\begin{description}
+\item[閾値効果（threshold effect）] 研究ごとにカットオフや測り方が違うために、感度と特異度が逆向きに動く現象です。ROC 平面の上で、研究の点が右上から左下へ並ぶ形で現れます。（\kkref{sec:10-1}）
+\item[異質性（heterogeneity）] 研究どうしの真の効果や真の精度が、偶然を超えて違っていることです。対象、介入や検査の方法、研究の質の違いが原因になります。（\kkref{sec:06-1}、\kkref{sec:14-1}）
+\item[一般化線形混合モデル（generalized linear mixed model, GLMM）] 研究内の数を二項分布のまま扱い、研究間のばらつきをランダム効果として加えるモデルです。検査のメタ解析では、二変量モデルをこの形で当てはめる方法を Cochrane のハンドブックが勧めています。R では lme4 パッケージの glmer で計算します。（\kkref{sec:13-3}）
+\item[陰性的中割合（negative predictive value）] 検査が陰性になった人のうち、本当に疾患のない人の割合です。一般には陰性的中率とも呼ばれます。有病割合が高いほど下がります。（\kkref{sec:09-3}、\kkref{sec:15-1-2}）
+\item[オッズ比（odds ratio, OR）] 2 群のオッズの比です。事象が多いとリスク比から離れるので、解釈には注意が要ります。（\kkref{sec:05-2}）
+\end{description}
+
+\subsection*{か行}
+\begin{description}
+\item[確実性（certainty of evidence）] 推定値が真の値に近いと信頼できる程度です。GRADE で、高、中、低、非常に低の 4 段階に判定します。（\kkref{sec:07-8}、\kkref{sec:15-2}）
+\item[カットオフ（cutoff）] 検査値を陽性と陰性に分ける境の値です。基準範囲とは目的が違い、標的疾患の有無を分けるために決めます。カットオフを上げると感度が下がり、特異度が上がります。（\kkref{sec:09-5}、\kkref{sec:14-2}）
+\item[感度（sensitivity）] 疾患のある人のうち、検査が陽性になる人の割合です。（\kkref{sec:09-2}）
+\item[感度分析（sensitivity analysis）] 解析の選び方を変えても結論が保たれるかを確かめる解析です。検査の感度とは関係のない言葉です。（\kkref{sec:07-6}）
+\item[共変量（covariate）] 研究ごとの特徴（場面、カットオフ、測定法など）のうち、精度のばらつきを説明するためにモデルに入れる変数です。研究間の比較なので、観察研究と同じ限界があります。（\kkref{sec:14-2}）
+\item[逆分散法（inverse variance method）] 各研究の推定値に、分散の逆数を重みとして掛けて平均する方法です。精度の高い研究ほど重みが大きくなります。（\kkref{sec:05-3}）
+\item[偽陽性割合（false positive proportion）] 疾患のない人のうち、検査が陽性になる人の割合で、1 から特異度を引いた値です。SROC 曲線の横軸になります。（\kkref{sec:09-2}）
+\item[組み入れ基準、除外基準（inclusion criteria, exclusion criteria）] どの研究をレビューに含めるかを、計画の段階で決めておく条件です。（\kkref{sec:02-3}）
+\item[系統的レビュー（systematic review）] 問いを先に決め、決めた方法で漏れなく研究を集め、評価し、まとめる研究です。メタ解析はその中で数値を統合する部分です。システマティックレビューとも呼ばれます。（\kkref{sec:01-5}）
+\item[研究間分散 τ²（between-study variance）] ランダム効果モデルで、研究ごとの真の効果が散らばる程度を表す分散です。I² と違い、効果の尺度での大きさを表します。（\kkref{sec:05-4}、\kkref{sec:06-1}）
+\item[検査レビューバイアス（test review bias）] 対象検査を判定する人が、参照基準の結果を知っている偏りです。目視で判定する検査のように、判定に主観が入る検査で問題になります。（\kkref{sec:12-5}）
+\item[個人データのメタ解析（individual participant data meta-analysis）] 試験ごとの集計値ではなく、参加者一人ひとりのデータを集めて統合する方法です。本書では扱いません。（\kkref{sec:08-6}）
+\item[固定効果モデル（common effect model）] すべての研究が同じ一つの真の効果を推定していると考えるモデルです。meta パッケージは common と表示します。（\kkref{sec:05-4}）
+\end{description}
+
+\subsection*{さ行}
+\begin{description}
+\item[差異的検証バイアス（differential verification bias）] 対象検査の結果によって、使う参照基準が変わる偏りです。精度が高く出る方向に動くことが多くなります。（\kkref{sec:12-5}）
+\item[サブグループ解析（subgroup analysis）] 研究を特徴で群に分け、群ごとの統合結果を比べる解析です。研究間の比較なので、事前に決めておくことと、試験数が少ないときに控えることが求められます。（\kkref{sec:06-4}）
+\item[参照基準（reference standard）] 標的疾患の有無を決めるために用いる、最も確かな方法です。PCT の例では血液培養にあたります。（\kkref{sec:11-1}）
+\item[出版バイアス（publication bias）] 結果が有意な研究ほど発表されやすいために、集めた研究が偏ることです。（\kkref{sec:07-1}）
+\item[小規模研究効果（small-study effects）] 小さい研究ほど効果が大きく出る傾向です。出版バイアスのほか、小さい研究の質の低さや対象の違いでも生じます。（\kkref{sec:07-1}）
+\item[抄録の選別（title/abstract screening）] 検索で得た文献を、題名と抄録を読んで組み入れの候補に絞る作業です。検査のスクリーニングと紛れないよう、本書では選別と呼びます。（\kkref{sec:03-3}、\kkref{sec:11-3}）
+\item[診断オッズ比（diagnostic odds ratio, DOR）] 陽性尤度比を陰性尤度比で割った値です。感度と特異度を一つの数に集約するので、どちらが優れているのかが分からなくなります。（\kkref{sec:09-4}、\kkref{sec:13-5}）
+\item[診断レビューバイアス（diagnostic review bias）] 参照基準を判定する人が、対象検査の結果を知っている偏りです。精度が高く出る方向に動くことが多くなります。（\kkref{sec:12-5}）
+\item[信頼区間（confidence interval）] 推定値の不確かさを表す範囲です。本書では 95\% 信頼区間を使います。（\kkref{sec:01-1}）
+\item[信頼領域（confidence region）] 二変量モデルで、要約点の不確かさを表す楕円の範囲です。95\% 信頼領域を使います。（\kkref{sec:13-6}）
+\item[スペクトラムバイアス（spectrum bias）] 重症の患者と健常者を比べるような研究で、臨床の場面より精度が高く出る偏りです。症例対照デザインで起こりやすくなります。（\kkref{sec:12-5}）
+\item[潜在クラスモデル（latent class model）] 参照基準が不完全なときに、真の疾患の有無を直接は観測できない潜在変数とみなして、感度、特異度、有病割合を推定するモデルです。Cochrane の DTA ハンドブックに紹介がありますが、本書では扱いません。（\kkref{sec:11-1}）
+\end{description}
+
+\subsection*{た行}
+\begin{description}
+\item[対象検査（index test）] レビューで精度を評価する検査です。PCT の例では PCT にあたります。（\kkref{sec:11-1}）
+\item[直接比較（head-to-head comparison）] 同じ患者で 2 つの検査を両方測った研究による比較です。別々の研究どうしを比べる間接比較より、対象の違いによる偏りが入りにくくなります。（\kkref{sec:14-6}）
+\item[データ抽出（data extraction）] 組み入れた研究から、研究の特徴と結果の数を決めた様式に書き写す作業です。2 人が独立に行います。（\kkref{sec:04-1}、\kkref{sec:12-1}）
+\item[データを見てから決めたカットオフ] 同じデータで最適なカットオフを選ぶことです。その研究の偶然のばらつきに合う位置が選ばれるので、精度が高く出ます。QUADAS-2 では対象検査の領域を高と判定します。（\kkref{sec:12-5}、\kkref{sec:14-5}）
+\item[特異度（specificity）] 疾患のない人のうち、検査が陰性になる人の割合です。（\kkref{sec:09-2}）
+\item[取り込みバイアス（incorporation bias）] 対象検査の結果が、参照基準の判定の一部に組み込まれている偏りです。精度が高く出ると考えられますが、その大きさを実証した証拠は乏しいとされています。（\kkref{sec:12-5}）
+\end{description}
+
+\subsection*{な行}
+\begin{description}
+\item[二変量モデル（bivariate model）] logit 感度と logit 特異度を、2 次元の正規分布として同時にモデル化する方法です。Reitsma らが提案しました。要約点と、その信頼領域と予測領域を出せます。（\kkref{sec:10-4}、\kkref{sec:13-3}）
+\item[ネットワークメタ解析（network meta-analysis）] 3 つ以上の介入を、直接比べた試験と間接的な比較を組み合わせて一度に比べる方法です。本書では扱いません。（\kkref{sec:08-6}）
+\end{description}
+
+\subsection*{は行}
+\begin{description}
+\item[バイアスのリスク（risk of bias）] 研究の方法の欠陥のために、結果が真の値からずれている恐れです。介入では RoB 2、検査では QUADAS-2 で評価します。（\kkref{sec:04-3}、\kkref{sec:12-4}）
+\item[標準化平均差（standardized mean difference, SMD）] 平均差を標準偏差で割った値です。研究ごとに測定の尺度が違うときに使います。（\kkref{sec:05-2}）
+\item[標的疾患（target condition）] 検査で見つけたい疾患や状態です。PCT の例では菌血症にあたります。（\kkref{sec:11-1}）
+\item[ファネルプロット（funnel plot）] 横軸に効果、縦軸に精度（標準誤差など）をとり、研究を点で示す図です。小さい研究が片側に偏ると、小規模研究効果を疑います。（\kkref{sec:07-2}）
+\item[フォレストプロット（forest plot）] 研究ごとの推定値と信頼区間を四角と線で、統合した結果を菱形で示す図です。（\kkref{sec:05-8}、\kkref{sec:13-1-1}）
+\item[不適切な除外（inappropriate exclusion）] 判定の難しい患者や、境界域の値の患者を解析から除く偏りです。精度が高く出ると考えられます。（\kkref{sec:12-5}）
+\item[部分的検証バイアス（partial verification bias）] 一部の人だけが参照基準を受ける偏りです。検査陽性の人ほど参照基準で確かめられやすいと、感度が高く、特異度が低く出ます。（\kkref{sec:12-5}、\kkref{sec:14-5}）
+\item[プロトコル（protocol）] レビューの問い、方法、解析の計画を、検索を始める前に書いた文書です。PROSPERO に登録し、後から解析を選ぶことによる偏りを防ぎます。（\kkref{sec:02-4}）
+\item[平均差（mean difference, MD）] 連続量のアウトカムで、2 群の平均の差です。（\kkref{sec:05-2}）
+\end{description}
+
+\subsection*{ま行}
+\begin{description}
+\item[メタ回帰（meta-regression）] 研究の特徴を説明変数にして、効果の大きさとの関係を回帰で調べる方法です。研究数が少ないと見かけの関連が出やすくなります。（\kkref{sec:06-5}）
+\item[メタ解析（meta-analysis）] 複数の研究の結果を統計的に統合する方法です。（\kkref{sec:01-3}）
+\end{description}
+
+\subsection*{や行}
+\begin{description}
+\item[尤度比（likelihood ratio）] 疾患のある人で検査が陽性（陰性）になる割合を、疾患のない人で同じ結果になる割合で割った値です。陽性尤度比は感度を偽陽性割合で割り、陰性尤度比は 1 から感度を引いた値を特異度で割って求めます。（\kkref{sec:09-4}、\kkref{sec:13-5}）
+\item[有病割合（prevalence）] 対象者のうち、標的疾患をもつ人の割合です。時間の分母をもたないので、率ではなく割合と呼びます。（\kkref{sec:09-3}、\kkref{sec:15-1}）
+\item[陽性的中割合（positive predictive value）] 検査が陽性になった人のうち、本当に疾患のある人の割合です。一般には陽性的中率とも呼ばれます。有病割合が低いほど下がります。（\kkref{sec:09-3}、\kkref{sec:15-1-2}）
+\item[要約点（summary point）] 二変量モデルで推定した、感度と特異度の平均の組です。ROC 平面の上の 1 点で示します。カットオフが混ざった研究からは出さず、同じカットオフの研究だけで出します。（\kkref{sec:10-4}、\kkref{sec:13-5}）
+\item[予測区間（prediction interval）] 次に行う研究の真の効果が入りそうな範囲です。研究間のばらつきを含むので、信頼区間より広くなります。（\kkref{sec:06-3}）
+\item[予測領域（prediction region）] 二変量モデルで、次の研究の感度と特異度の組が入りそうな範囲を表す楕円です。95\% 予測領域を使います。（\kkref{sec:13-6}）
+\end{description}
+
+\subsection*{ら行}
+\begin{description}
+\item[ランダム効果モデル（random effects model）] 研究ごとの真の効果が分布をもつと考え、その平均を推定するモデルです。固定効果モデルより小さい研究の重みが相対的に大きくなります。（\kkref{sec:05-4}）
+\item[リスク比（risk ratio, RR）] 2 群のリスク（事象が起きた人の割合）の比です。（\kkref{sec:05-2}）
+\item[リビングシステマティックレビュー（living systematic review）] 新しい証拠が出るたびに取り込んで、更新し続ける系統的レビューです。本書では扱いません。（\kkref{sec:08-6}）
+\item[連続補正（continuity correction）] 2×2 表に 0 のセルがあると対数がとれないので、すべてのセルに 0.5 などを足す処理です。mada の reitsma は 0.5 を足します。（\kkref{sec:05-6}、\kkref{sec:13-1}）
+\end{description}
+
+\section{ギリシア文字と記号}
+\label{sec:B-3}
+
+本文の式や説明に出てくる文字と記号です。ギリシア文字には大文字と小文字があり、数式では別の意味で使い分けます。見出し語の横の小さな字は、読み方です。
+
+\begin{description}
+\item[τ\kkyomi{タウ}] ギリシア文字の小文字で、アルファベットの t にあたります。本書では、真の効果が試験ごとに散らばる程度の標準偏差を表し、降圧薬 A では τ = 0.18（対数リスク比の尺度）でした。メタ解析では、研究間の標準偏差を τ で表すのが慣例です。ほかの場面では、順位相関の Kendall の τ にも使います。（\kkref{sec:05-4}、\kkref{sec:06-1}）
+\item[τ²\kkyomi{タウ二乗}] τ を 2 乗した値で、研究間分散のことです。本書では、ランダム効果モデルの重みに足す量として、また異質性の指標として出てきます。推定には REML などを使い、降圧薬 A では τ² = 0.034 でした。統計では、分散を標準偏差の 2 乗として書くのが一般的で、研究の中のばらつきには σ² や v を使い、研究の間のばらつきを τ² と書き分けることが多くなります。（\kkref{sec:05-4}、\kkref{sec:06-1}）
+\item[κ\kkyomi{カッパ}] ギリシア文字の小文字で、アルファベットの k にあたります。本書では、2 人の判定がどれだけ一致したかを表す κ 係数に出てきます。偶然の一致を差し引いた一致の度合いで、1 に近いほどよく一致していることを表します。検査では、判定者どうしの一致の度合いを示すときによく使います。（\kkref{sec:03-3}、\kkref{sec:11-3}）
+\item[Σ\kkyomi{シグマ}] ギリシア文字の大文字で、本書では Q 統計量の式に、全試験を足すという記号として出てきます。統計では、合計を表すのに使います。同じ文字の小文字 σ は別の意味をもち、母集団の標準偏差を表すのによく使います。標本から計算した標準偏差には s を使うことが多く、本書の式には σ は出てきません。（\kkref{sec:06-1}）
+\item[±\kkyomi{プラスマイナス}] 値の前後に幅をつけて示す記号です。本書では、平均の対数 ± 1.96τ という中央 95\% の範囲の式と、相関が ±1 に張り付くという説明に出てきます。統計では、平均 ± SD のように、ばらつきや誤差の幅を表す形でよく使います。± のあとの数が SD か標準誤差か信頼区間の半分の幅かは論文によって違うので、書き方を確かめてから読みます。（\kkref{sec:06-3-1}、\kkref{sec:13-4}）
+\item[×\kkyomi{かける}] 掛け算の記号です。本書では、2×2 表の「2 行 2 列」の意味でも使います。2×2 表は、疾患の有無と検査の陽性、陰性を組み合わせた 4 つのマスの表です。（\kkref{sec:04-2}、\kkref{sec:09-1}）
+\item[÷\kkyomi{わる}] 割り算の記号です。I² を（Q − 自由度）÷ Q で求める式などに出てきます。（\kkref{sec:06-1}）
+\item[≈\kkyomi{ほぼ等しい}] 左右の値がほぼ等しいことを表す記号です。計算結果を丸めた値を書くときに使います。（\kkref{sec:14-2}）
+\item[²\kkyomi{2 乗}] 右肩に付く 2 は、2 乗を表します。τ² は τ を 2 乗した値で、分散は標準偏差の 2 乗です。I² の 2 は名前の一部で、I という値を 2 乗して求めるわけではありません。R² は、ふつうの回帰では実測値と予測値の相関係数 R を 2 乗した値で、名前もそこから来ています。ただしメタ回帰の R² は、τ² がどれだけ減ったかの割合として計算するもので、何かを 2 乗して求める値ではありません。（\kkref{sec:05-4}、\kkref{sec:06-1}）
+\item[$\bar{y}$\kkyomi{ワイバー}] 文字の上に付けた横線（バー）は、平均を表すのによく使います。本書では、各試験の推定値 y を統合した値を $\bar{y}$ と書きます。y と重み w の右下の i は、i 番目の試験を表す添字です。（\kkref{sec:06-1}）
+\end{description}

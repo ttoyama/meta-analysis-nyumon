@@ -1,0 +1,91 @@
+\begin{chapintro}
+本文で著者と年で示した文献を、教科書、指針、方法論、ソフトウェア、例題の 5 つに分けて並べます。各群の中は著者名のアルファベット順です。
+\end{chapintro}
+
+\section{教科書}
+\label{sec:C-1}
+
+\begin{itemize}
+\item Deeks JJ, Bossuyt PM, Leeflang MMG, Takwoingi Y (eds). Cochrane Handbook for Systematic Reviews of Diagnostic Test Accuracy. Version 2. Chichester: Wiley, 2023.
+\item Deeks JJ, Higgins JPT, Altman DG. Chapter 10: Analysing data and undertaking meta-analyses. In: Higgins JPT, et al (eds). Cochrane Handbook for Systematic Reviews of Interventions. Version 6.0. Cochrane, 2019.
+\item Higgins JPT, Thomas J, et al (eds). Cochrane Handbook for Systematic Reviews of Interventions. Version 6.5. Cochrane, 2024. training.cochrane.org/handbook
+\item Macaskill P, et al. Chapter 9: Understanding meta-analysis. In: Deeks JJ, et al (eds). Cochrane Handbook for Systematic Reviews of Diagnostic Test Accuracy. Version 2.0. Cochrane, 2023.
+\item Takwoingi Y, et al. Chapter 10: Undertaking meta-analysis. In: Deeks JJ, et al (eds). Cochrane Handbook for Systematic Reviews of Diagnostic Test Accuracy. Version 2.0. Cochrane, 2023.
+\end{itemize}
+
+介入のハンドブックは第 1 部の全体に対応します。Deeks 2019 は介入のハンドブックの第 10 章で、予測領域の推定が研究数の少ないときに不安定になる点の出典として、本書の第 10 章が引いています。診断精度（DTA）のハンドブックでは、Macaskill 2023（第 9 章）がメタ解析の考え方、Takwoingi 2023（第 10 章）がその実際を扱っており、本書の第 2 部はこの 2 つの章を背景にしています。Takwoingi 2023 は同じ例題を SAS、Stata、R の 3 つで解いているので、本書の第 13 章のコードと読み比べると、ソフトウェアが違っても同じモデルを当てはめていることが確かめられます。
+
+\section{指針}
+\label{sec:C-2}
+
+報告の指針、バイアスのリスクの評価の道具、確実性の判定の枠組みを集めます。
+
+\begin{itemize}
+\item Bossuyt PM, et al. STARD 2015: an updated list of essential items for reporting diagnostic accuracy studies. BMJ 2015;351:h5527.
+\item Cohen JF, et al. Preferred reporting items for journal and conference abstracts of systematic reviews and meta-analyses of diagnostic test accuracy studies (PRISMA-DTA for Abstracts): checklist, explanation, and elaboration. BMJ 2021;372:n265.
+\item Guyatt GH, et al. GRADE: an emerging consensus on rating quality of evidence and strength of recommendations. BMJ 2008;336(7650):924-926.
+\item Guyatt GH, et al. Core GRADE 2: choosing the target of certainty rating and assessing imprecision. BMJ 2025;389:e081904.
+\item Guyatt GH, et al. Core GRADE 3: rating certainty of evidence: assessing inconsistency. BMJ 2025;389:e081905.
+\item McInnes MDF, et al. Preferred Reporting Items for a Systematic Review and Meta-analysis of Diagnostic Test Accuracy Studies: the PRISMA-DTA statement. JAMA 2018;319(4):388-396.
+\item Moher D, et al. Preferred reporting items for systematic review and meta-analysis protocols (PRISMA-P) 2015 statement. Syst Rev 2015;4:1.
+\item Page MJ, et al. The PRISMA 2020 statement: an updated guideline for reporting systematic reviews. BMJ 2021;372:n71.
+\item Page MJ, et al. ROB-ME: a tool for assessing risk of bias due to missing evidence in systematic reviews with meta-analysis. BMJ 2023;383:e076754.
+\item Rethlefsen ML, et al. PRISMA-S: an extension to the PRISMA statement for reporting literature searches in systematic reviews. Syst Rev 2021;10:39.
+\item Schünemann HJ, et al. GRADE guidelines: 21 part 1. Study design, risk of bias, and indirectness in rating the certainty across a body of evidence for test accuracy. J Clin Epidemiol 2020;122:129-141.
+\item Schünemann HJ, et al. GRADE guidelines: 21 part 2. Test accuracy: inconsistency, imprecision, publication bias, and other domains for rating the certainty of evidence and presenting it in evidence profiles and summary of findings tables. J Clin Epidemiol 2020;122:142-152.
+\item Sterne JAC, et al. ROBINS-I: a tool for assessing risk of bias in non-randomised studies of interventions. BMJ 2016;355:i4919.
+\item Sterne JAC, et al. RoB 2: a revised tool for assessing risk of bias in randomised trials. BMJ 2019;366:l4898.
+\item Whiting PF, et al. QUADAS-2: a revised tool for the quality assessment of diagnostic accuracy studies. Ann Intern Med 2011;155(8):529-536.
+\item Whiting PF, et al. QUADAS-3: a revised tool for the quality assessment of diagnostic test accuracy studies. Ann Intern Med 2026;179(4):548-555. doi:10.7326/ANNALS-25-02104
+\item Yang B, et al. QUADAS-C: a tool for assessing risk of bias in comparative diagnostic accuracy studies. Ann Intern Med 2021;174(11):1592-1599.
+\end{itemize}
+
+\section{方法論}
+\label{sec:C-3}
+
+\begin{itemize}
+\item Bradburn MJ, Deeks JJ, Berlin JA, Russell Localio A. Much ado about nothing: a comparison of the performance of meta-analytical methods with rare events. Stat Med 2007;26(1):53-77.
+\item Chu H, Cole SR. Bivariate meta-analysis of sensitivity and specificity with sparse data: a generalized linear mixed model approach. J Clin Epidemiol 2006;59(12):1331-1332.
+\item Deeks JJ, Macaskill P, Irwig L. The performance of tests of publication bias and other sample size effects in systematic reviews of diagnostic test accuracy was assessed. J Clin Epidemiol 2005;58(9):882-893.
+\item DerSimonian R, Laird N. Meta-analysis in clinical trials. Control Clin Trials 1986;7(3):177-188.
+\item Egger M, et al. Bias in meta-analysis detected by a simple, graphical test. BMJ 1997;315(7109):629-634.
+\item Harbord RM, et al. A unification of models for meta-analysis of diagnostic accuracy studies. Biostatistics 2007;8(2):239-251.
+\item Hartung J, Knapp G. A refined method for the meta-analysis of controlled clinical trials with binary outcome. Stat Med 2001;20(24):3875-3889.
+\item Higgins JPT, Thompson SG. Quantifying heterogeneity in a meta-analysis. Stat Med 2002;21(11):1539-1558.
+\item Higgins JPT, Thompson SG, Deeks JJ, Altman DG. Measuring inconsistency in meta-analyses. BMJ 2003;327(7414):557-560.
+\item IntHout J, Ioannidis JPA, Borm GF. The Hartung-Knapp-Sidik-Jonkman method for random effects meta-analysis is straightforward and considerably outperforms the standard DerSimonian-Laird method. BMC Med Res Methodol 2014;14:25.
+\item IntHout J, Ioannidis JPA, Rovers MM, Goeman JJ. Plea for routinely presenting prediction intervals in meta-analysis. BMJ Open 2016;6(7):e010247.
+\item Jones HE, et al. Quantifying how diagnostic test accuracy depends on threshold in a meta-analysis. Stat Med 2019;38(24):4789-4803.
+\item Leeflang MMG, et al. Variation of a test's sensitivity and specificity with disease prevalence. CMAJ 2013;185(11):E537-E544.
+\item Lijmer JG, et al. Empirical evidence of design-related bias in studies of diagnostic tests. JAMA 1999;282(11):1061-1066.
+\item Reitsma JB, et al. Bivariate analysis of sensitivity and specificity produces informative summary measures in diagnostic reviews. J Clin Epidemiol 2005;58(10):982-990.
+\item Riley RD, Higgins JPT, Deeks JJ. Interpretation of random effects meta-analyses. BMJ 2011;342:d549.
+\item Rutjes AW, et al. Evidence of bias and variation in diagnostic accuracy studies. CMAJ 2006;174(4):469-476.
+\item Rutter CM, Gatsonis CA. A hierarchical regression approach to meta-analysis of diagnostic test accuracy evaluations. Stat Med 2001;20(19):2865-2884.
+\item Sidik K, Jonkman JN. A simple confidence interval for meta-analysis. Stat Med 2002;21(21):3153-3159.
+\item Steinhauser S, et al. Modelling multiple thresholds in meta-analysis of diagnostic test accuracy studies. BMC Med Res Methodol 2016;16:97.
+\item Sterne JAC, et al. Recommendations for examining and interpreting funnel plot asymmetry in meta-analyses of randomised controlled trials. BMJ 2011;343:d4002.
+\item Whiting P, et al. Sources of variation and bias in studies of diagnostic accuracy: a systematic review. Ann Intern Med 2004;140(3):189-202.
+\item Zwinderman AH, Bossuyt PM. We should not pool diagnostic likelihood ratios in systematic reviews. Stat Med 2008;27(5):687-697.
+\end{itemize}
+
+\section{ソフトウェア}
+\label{sec:C-4}
+
+\begin{itemize}
+\item Balduzzi S, Rücker G, Schwarzer G. How to perform a meta-analysis with R: a practical tutorial. Evid Based Ment Health 2019;22(4):153-160.
+\item Doebler P, Sousa-Pinto B. mada: Meta-Analysis of Diagnostic Accuracy. R package version 0.5.12, 2025.
+\item Viechtbauer W. Conducting meta-analyses in R with the metafor package. J Stat Softw 2010;36(3):1-48.
+\end{itemize}
+
+\section{例題}
+\label{sec:C-5}
+
+本書で用いた実データと、第 14 章で読み比べた論文です。
+
+\begin{itemize}
+\item Colditz GA, et al. Efficacy of BCG vaccine in the prevention of tuberculosis. Meta-analysis of the published literature. JAMA 1994;271(9):698-702.
+\item Kriston L, et al. Meta-analysis: are 3 questions enough to detect unhealthy alcohol use? Ann Intern Med 2008;149(12):879-888.
+\item Tang BM, et al. Accuracy of procalcitonin for sepsis diagnosis in critically ill patients: systematic review and meta-analysis. Lancet Infect Dis 2007;7(3):210-217.
+\item Wacker C, et al. Procalcitonin as a diagnostic marker for sepsis: a systematic review and meta-analysis. Lancet Infect Dis 2013;13(5):426-435.
+\end{itemize}

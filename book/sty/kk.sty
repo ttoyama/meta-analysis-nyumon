@@ -1,0 +1,41 @@
+\ProvidesExplPackage
+  {kk}
+  {2026/08/11}
+  {1.0.0}
+  {Aggregate package for the kk style system}
+
+\keys_define:nn { kk / package }
+  {
+    top .code:n =
+      { \PassOptionsToPackage{top={#1}}{kk-layout} },
+    top .value_required:n = true,
+    bottom .code:n =
+      { \PassOptionsToPackage{bottom={#1}}{kk-layout} },
+    bottom .value_required:n = true,
+    left .code:n =
+      { \PassOptionsToPackage{left={#1}}{kk-layout} },
+    left .value_required:n = true,
+    right .code:n =
+      { \PassOptionsToPackage{right={#1}}{kk-layout} },
+    right .value_required:n = true,
+    header .code:n =
+      { \PassOptionsToPackage{header={#1}}{kk-layout} },
+    header .value_required:n = true,
+  }
+
+\ProcessKeyOptions [ kk / package ]
+
+\RequirePackage{kk-fonts}
+\RequirePackage{kk-layout}
+\RequirePackage{kk-components}
+\RequirePackage{kk-cover}
+\RequirePackage{kk-sections}
+\RequirePackage{amsmath,enumitem}
+
+% Without a labelsep the description label runs straight into its value
+% (「タイトルテスト」). One full-width space is the Japanese convention.
+\ExplSyntaxOff
+\setlist[description]{labelsep=1em}
+\ExplSyntaxOn
+
+\endinput

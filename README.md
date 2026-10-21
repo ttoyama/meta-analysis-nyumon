@@ -4,6 +4,7 @@
 
 - 本: [`meta_analysis_nyumon.pdf`](meta_analysis_nyumon.pdf)（A5、約 230 ページ）
 - R のスクリプト: このリポジトリの `.R` ファイル
+- 本の LaTeX ソース: [`book/`](book/)
 
 初めて読むときは、見出しに「発展」の印のある節を飛ばして読んでかまいません。
 
@@ -17,6 +18,8 @@
 | `010_make_data.R` | 架空データ（降圧薬 A の 10 試験、プロカルシトニンの 10 研究）を作る。`00_setup.R` が呼び出す |
 | `100_part1.R` | 第 1 部の解析 |
 | `200_part2.R` | 第 2 部の解析 |
+| `book/` | 本の LaTeX ソースと図 |
+| `tools/sync_book.sh` | 著者が手元の正本からソースと PDF を写すためのスクリプト |
 
 ## 使い方（Windows、Mac 共通）
 
@@ -53,7 +56,22 @@ Sys.setenv(http_proxy = "http://proxy.example.ac.jp:8080",
 
 例題の降圧薬 A の 10 試験と、プロカルシトニン（PCT）の 10 研究は、説明のために作った架空のデータで、実在の試験や研究ではありません。実データの例には、metafor パッケージの BCG ワクチンの 13 試験（`dat.bcg`）と、mada パッケージの AUDIT-C の 14 研究（`AuditC`）を使っています。
 
+## 本を自分で組むとき
+
+`book/` で次を実行すると、`メタ解析入門.pdf` ができます。TeX Live の LuaLaTeX で組みます。
+
+```sh
+cd book
+TEXINPUTS="./sty:" latexmk -lualatex メタ解析入門.tex
+```
+
+和文の書体は、既定ではヒラギノ（macOS）を使います。ヒラギノのない環境では、原ノ味フォント（TeX Live に入っている）に切り替えて組みます。
+
+```sh
+TEXINPUTS="./sty:" latexmk -lualatex -usepretex='\PassOptionsToPackage{profile=haranoaji}{kk-fonts}' メタ解析入門.tex
+```
+
 ## ライセンス
 
-- 本（`meta_analysis_nyumon.pdf`）: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.ja)
+- 本（`meta_analysis_nyumon.pdf`）と LaTeX ソース（`book/`）: [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.ja)（表示・非営利。`book/LICENSE` を参照）。出典を示せば、複製して配ることも手を加えることも自由ですが、販売などの営利の目的には使えません
 - R のスクリプト: MIT License（`LICENSE` を参照）

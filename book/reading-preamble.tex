@@ -1,0 +1,179 @@
+% 読み物版の共通プリアンブル。各章の .tex から \input する。
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{colortbl}
+\usepackage{multirow}
+\usepackage{graphicx}
+\graphicspath{{fig/}{../fig/}}   % 公開用のソースは book/fig/、正本は ../fig/ に図がある
+\usetikzlibrary{arrows.meta,positioning}
+\tikzset{
+  kbox/.style   = {draw=kkaccent, fill=kkpale, line width=.5pt,
+                   align=flush center, inner sep=5pt, font=\footnotesize,
+                   rounded corners=1.5pt, minimum height=8mm},
+  kplain/.style = {kbox, fill=white},
+  kar/.style    = {-{Stealth[length=4.5pt,width=3.5pt]}, draw=kkaccent, line width=.6pt},
+  knode/.style  = {circle, draw=kkaccent, fill=kkpale, line width=.6pt,
+                   minimum size=8mm, inner sep=0pt, font=\small},
+  kedge/.style  = {draw=kksecondary, line width=1pt},
+}
+
+% jlreq は行送りを固定するため、背の高い箱（表・図）が前後の行と重なる。
+% 表と図はこの環境で囲み、前後に必ずアキを入れる。
+\newenvironment{kkcenter}
+  {\par\addvspace{\baselineskip}\begin{center}}
+  {\end{center}\par\addvspace{.5\baselineskip}}
+
+
+% 版面幅を超える表は自動で縮める。収まっていれば原寸のまま。
+\newsavebox{\kkfitbox}
+\newcommand{\kkfit}[1]{%
+  \sbox\kkfitbox{#1}%
+  \ifdim\wd\kkfitbox>\linewidth
+    \resizebox{\linewidth}{!}{\usebox\kkfitbox}%
+  \else
+    \usebox\kkfitbox
+  \fi}
+
+\newcommand{\kkcap}[1]{\\[.5\baselineskip]{\footnotesize\kkgt{3}\textcolor{kkdark}{#1}}}
+
+% 読み物版では節見出しの前アキを詰める（既定は 2 行ドリ）
+\makeatletter
+\renewcommand{\kk@heading@pre}{%
+  \ifkk@lastisheading \vspace{-.3\baselineskip}\else \vspace{1\baselineskip}\fi}
+\makeatother
+\raggedbottom
+
+\usepackage{hyperref}
+\hypersetup{luatex, pdfencoding=auto, colorlinks=true,
+            linkcolor=black, urlcolor=blue}
+
+% 章の扉。合本にしたときの区切りに使う。
+\makeatletter
+\newcommand{\kkchapter}[2]{%
+  \clearpage
+  \null\vspace{6mm}%
+  \noindent{\color{kkaccent}\rule{\linewidth}{1.4pt}}\par\vspace{4mm}%
+  \gdef\kkcurchap{#1}%
+  \noindent{\kkgt{4}\large\kkchaplabel{#1}}\par\vspace{3mm}%
+  \noindent{\kkgt{7}\fontsize{21pt}{27pt}\selectfont #2}\par\vspace{4mm}%
+  \noindent{\color{kksecondary}\rule{\linewidth}{.5pt}}\par
+  \vspace{6mm}%
+  \setcounter{section}{0}%
+  \global\kk@lastisheadingfalse
+}
+\makeatother
+
+% ---- メタ解析入門で追加 ----------------------------------------------------
+\usepackage{fvextra}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{shapes.geometric,calc,fit,backgrounds,patterns,decorations.pathreplacing}
+\definecolor{kkwarm}{HTML}{C0504D}
+\definecolor{kkcode}{HTML}{F4F7FA}
+
+% R のコード。そのまま写して実行できる形で載せる
+\DefineVerbatimEnvironment{rcode}{Verbatim}{%
+  breaklines, breakanywhere, fontsize=\small, frame=leftline, framerule=1.2pt,
+  rulecolor=\color{kkaccent}, framesep=3mm, xleftmargin=1mm,
+  bgcolor=kkcode}
+% R の出力。コードと見分けがつくよう地の色を外し、小さく組む
+\DefineVerbatimEnvironment{rout}{Verbatim}{%
+  breaklines, breakanywhere, fontsize=\footnotesize, frame=single, framerule=.4pt,
+  rulecolor=\color{kksecondary}, framesep=2mm, formatcom=\color{kkdark}}
+
+% 図を入れる（kkcenter と見出しを一緒に）
+% R の図は浮動体にする。次のページへ送られても、空いた所に本文が流れる
+\newcommand{\kkfig}[3][\linewidth]{%
+  \begin{figure}[!htbp]\centering
+  \includegraphics[width=#1]{#2}\kkcap{#3}\end{figure}}
+\renewcommand{\topfraction}{.85}\renewcommand{\bottomfraction}{.7}
+\renewcommand{\textfraction}{.12}\renewcommand{\floatpagefraction}{.75}
+\setlength{\textfloatsep}{12pt plus 4pt minus 2pt}
+
+% 部の扉
+\newcommand{\kkcurchap}{}
+\newif\ifkkappendix
+\newcommand{\kkchaplabel}[1]{\ifkkappendix 付録 #1\else 第 #1 章\fi}
+\newcommand{\kkpart}[3]{%
+  \clearpage\thispagestyle{empty}%
+  \null\vspace{40mm}%
+  \if\relax\detokenize{#1}\relax\else\noindent{\kkgt{4}\large\color{kkaccent} 第 #1 部}\par\vspace{4mm}\fi
+  \noindent{\kkgt{7}\fontsize{26pt}{32pt}\selectfont #2}\par\vspace{6mm}%
+  \noindent{\color{kkaccent}\rule{\linewidth}{1.4pt}}\par\vspace{8mm}%
+  \noindent\begin{minipage}{\linewidth}\small #3\end{minipage}%
+  \clearpage}
+
+% 章の頭の「この章で分かること」
+\newenvironment{chapintro}{\begin{simpleao}{この章で分かること}}{\end{simpleao}}
+
+% 節と小節の見出しを箱なしで組み直す。tcolorbox の見出しは空きがあっても次ページへ送られるため
+\makeatletter
+\renewcommand{\kk@section@typeset}[2]{%
+  \par\noindent{\fontsize{11pt}{14pt}\selectfont\kkgt{5}\color{kkaccent}#1}\par\nobreak
+  \vspace{.5mm}%
+  \noindent\parbox{\linewidth}{\raggedright\fontsize{15pt}{20pt}\selectfont\kkgt{4}#2}\par\nobreak
+  \vspace{1.2mm}%
+  \noindent{\color{kkaccent}\rule{\linewidth}{.8pt}}\par\nobreak
+  \vspace{2.5mm}\@afterheading}
+\renewcommand{\kk@subsection@typeset}[2]{%
+  \par\noindent{\color{kkaccent}\rule[.15ex]{1.2mm}{1.2mm}}\hspace{2mm}%
+  {\fontsize{12pt}{16pt}\selectfont\kkgt{4}#2}\par\nobreak
+  \vspace{1.5mm}\@afterheading}
+\makeatother
+
+% \raggedbottom では負のペナルティの位置が常に最良の改ページ点になる。
+% リストの前後で改ページされて下に空白が残るのを防ぐため、リストのペナルティを 0 にする
+\makeatletter
+\@beginparpenalty=0 \@endparpenalty=0 \@itempenalty=0
+\makeatother
+
+% 初読では飛ばしてよい内容の印。節には見出しの頭に \hatten を置き、段落には hattenbox 環境を使う
+\DeclareRobustCommand{\hattentag}{\tikz[baseline=(t.base)]\node[draw=kkaccent, rounded corners=1pt,
+  inner xsep=1.6pt, inner ysep=1.2pt, text=kkaccent, font=\scriptsize\kkgt{5}](t){発展};}
+\newcommand{\hatten}{\texorpdfstring{\hattentag\hspace{2mm}}{[発展] }}
+\newtcolorbox{hattenbox}{breakable, enhanced, colback=white, colframe=kkaccent!45,
+  boxrule=.4pt, arc=1pt, left=2.5mm, right=2.5mm, top=1.5mm, bottom=1.5mm,
+  before skip=3mm, after skip=3mm, before upper={\hattentag\hspace{2mm}}}
+
+% 目次に部と章の行を足す。kkchapter と kkpart は見出しを自前で組むため、目次の行をここで書く
+\makeatletter
+\newcommand{\l@kkpartline}[2]{\addvspace{7pt}\noindent{\kkgt{5}\small\color{kkaccent}#1}\par\nobreak}
+\newcommand{\l@kkchapline}[2]{\addvspace{4pt}\noindent
+  {\kkgt{5}\small\color{kkdark}#1}\kk@toc@leader{\small\color{black!75}#2}\par\nobreak}
+\let\kk@orig@chapter\kkchapter
+\renewcommand{\kkchapter}[2]{\kk@orig@chapter{#1}{#2}%
+  \addcontentsline{toc}{kkchapline}{\kkchaplabel{#1}\hspace{.6\zw}#2}}
+\let\kk@orig@part\kkpart
+\renewcommand{\kkpart}[3]{%
+  \clearpage
+  \addcontentsline{toc}{kkpartline}{\if\relax\detokenize{#1}\relax\else 第 #1 部\hspace{.6\zw}\fi #2}%
+  \kk@orig@part{#1}{#2}{#3}}
+\let\kk@orig@toc\tableofcontents
+\renewcommand{\tableofcontents}{%
+  \thispagestyle{empty}%
+  \noindent{\kkgt{7}\fontsize{17pt}{21pt}\selectfont 目次}\par\vspace{1.5mm}%
+  \noindent{\color{kkaccent}\rule{\linewidth}{1pt}}\par\vspace{2mm}%
+  {\footnotesize 見出しの前の\hattentag の印は、初めて読むときは飛ばしてよい部分です。}\par\vspace{3mm}%
+  \kk@orig@toc}
+\makeatother
+
+% 用語集で、見出し語の横に読み方を小さな字で添える
+\newcommand{\kkyomi}[1]{\hspace{.5\zw}{\footnotesize\mdseries\textcolor{kkdark}{（#1）}}}
+
+% 相互参照。節の番号に章の番号を含め、「5.2 節（p. 42）」の形で参照できるようにする
+% 節と小節には \label{sec:...} を付け、本文では \kksee{sec:...} か \kkref{sec:...} で参照する
+% 章には \kkchapter が ch:5、ch:A のようなラベルを自動で付ける。参照は \kkchref{5}
+\makeatletter
+\renewcommand*\thesection{\kkcurchap.\arabic{section}}
+\let\kk@orig@chapter@b\kkchapter
+\renewcommand{\kkchapter}[2]{\kk@orig@chapter@b{#1}{#2}%
+  \protected@edef\@currentlabel{#1}\label{ch:#1}}
+\makeatother
+\newcommand{\kkref}[1]{\ref{#1} 節（p.~\pageref{#1}）\ignorespaces}
+\newcommand{\kksee}[1]{（→ \ref{#1} 節（p.~\pageref{#1}））\ignorespaces}
+\newcommand{\kkchref}[1]{\kkchaplabel{#1}（p.~\pageref{ch:#1}）\ignorespaces}
+% hyperref のリンク先を章ごとに区別する（既定では各章の 1 節が同じ識別子になり、別の章へ飛ぶ）
+\renewcommand*\theHsection{\kkcurchap.\arabic{section}}
+\renewcommand*\theHsubsection{\kkcurchap.\arabic{section}.\arabic{subsection}}

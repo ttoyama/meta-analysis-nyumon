@@ -1,0 +1,88 @@
+\ProvidesExplPackage
+  {kk-fonts}
+  {2026/08/11}
+  {1.0.0}
+  {Semantic Japanese font profiles for kk}
+
+\tl_new:N \l__kk_fonts_profile_tl
+\tl_new:N \l__kk_fonts_yuplatform_tl
+
+\keys_define:nn { kk / fonts }
+  {
+    profile .tl_set:N = \l__kk_fonts_profile_tl,
+    profile .initial:n = { hiragino },
+    yuplatform .tl_set:N = \l__kk_fonts_yuplatform_tl,
+    yuplatform .initial:n = { osx },
+  }
+
+\ProcessKeyOptions [ kk / fonts ]
+
+\RequirePackage[no-math]{fontspec}
+\RequirePackage[no-math,match]{luatexja-fontspec}
+
+\msg_new:nnn { kk-fonts } { unknown-profile }
+  { Unknown~font~profile~'#1'. }
+\msg_new:nnn { kk-fonts } { unknown-yu-platform }
+  { Unknown~Yu~platform~'#1';~expected~'osx'~or~'win'. }
+
+\str_case:VnF \l__kk_fonts_profile_tl
+  {
+    { hiragino }
+      { \PassOptionsToPackage{hiragino-pro,deluxe,expert}{luatexja-preset} }
+    { haranoaji }
+      { \PassOptionsToPackage{haranoaji,deluxe}{luatexja-preset} }
+    { sourcehan }
+      { \PassOptionsToPackage{sourcehan,deluxe}{luatexja-preset} }
+    { ipaex }
+      { \PassOptionsToPackage{ipaex}{luatexja-preset} }
+    { bizud }
+      { \PassOptionsToPackage{bizud}{luatexja-preset} }
+    { yu }
+      {
+        \str_case:VnF \l__kk_fonts_yuplatform_tl
+          {
+            { osx } { \PassOptionsToPackage{yu-osx}{luatexja-preset} }
+            { win } { \PassOptionsToPackage{yu-win}{luatexja-preset} }
+          }
+          {
+            \msg_error:nnV { kk-fonts } { unknown-yu-platform }
+              \l__kk_fonts_yuplatform_tl
+          }
+      }
+  }
+  {
+    \msg_error:nnV { kk-fonts } { unknown-profile }
+      \l__kk_fonts_profile_tl
+  }
+
+\RequirePackage{luatexja-preset}
+
+% A roundhand script, used for the word "Section" in headings. Snell Roundhand
+% is macOS-only, so fall back to TeX Gyre Chorus, which ships with TeX Live and
+% is therefore present wherever this compiles at all.
+% [anatomy:飾り書体]
+\IfFontExistsTF { Snell~Roundhand }
+  { \newfontfamily \kkscript { Snell~Roundhand } [ Ligatures = TeX ] }
+  { \newfontfamily \kkscript { TeX~Gyre~Chorus } [ Ligatures = TeX ] }
+
+% These are SEMANTIC weights: switching profile never requires document edits.
+% [anatomy:本文明朝]
+\NewDocumentCommand{\kkmc}{}{\mcfamily}
+% [anatomy:ゴシック段階]
+\NewDocumentCommand{\kkgt}{m}
+  {
+    \int_compare:nNnTF {#1} < { 5 }
+      { \gtfamily \mdseries }
+      {
+        \int_compare:nNnTF {#1} < { 8 }
+          { \gtfamily \bfseries }
+          {
+            \gtfamily
+            \cs_if_exist:NTF \ebseries
+              { \ebseries }
+              { \bfseries }
+          }
+      }
+  }
+
+\endinput

@@ -1,0 +1,110 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{kk-layout}[2026/08/11 v1.0.0 Page geometry and running-page furniture (ported from 1SNotes sty-v2)]
+\RequirePackage{kk-fonts}
+\RequirePackage{xcolor}
+\RequirePackage{geometry}
+\RequirePackage{fancyhdr}
+\RequirePackage{tikz}
+\RequirePackage{kvoptions}
+% Design tokens. Every subsystem refers to these names, never to raw hex.
+\definecolor{kkpale}{HTML}{E3EDF6}
+\definecolor{kksecondary}{HTML}{8FB0CE}
+\definecolor{kkaccent}{HTML}{2F5B82}
+\definecolor{kkdark}{HTML}{1E3E5C}
+% Every knob is a package option so the document — not this file — is where a
+% setting is decided: \usepackage[top=25mm,header={...}]{<prefix>}. The values
+% below are the defaults chosen at generation time.
+\SetupKeyvalOptions{family=kklayout,prefix=kklayout@}
+\DeclareStringOption[20mm]{top}
+\DeclareStringOption[23mm]{bottom}
+\DeclareStringOption[16mm]{left}
+\DeclareStringOption[16mm]{right}
+\DeclareStringOption[]{header}
+\ProcessKeyvalOptions*
+
+\newdimen\kk@geom@top
+\newdimen\kk@geom@bottom
+\newdimen\kk@geom@left
+\newdimen\kk@geom@right
+\kk@geom@top=\kklayout@top\relax
+\kk@geom@bottom=\kklayout@bottom\relax
+\kk@geom@left=\kklayout@left\relax
+\kk@geom@right=\kklayout@right\relax
+
+% The page furniture below reads the same four registers geometry does, so a
+% changed margin moves the rules and the page number with it.
+\geometry{
+  top=\kk@geom@top,
+  bottom=\kk@geom@bottom,
+  left=\kk@geom@left,
+  right=\kk@geom@right,
+  headheight=17pt
+}
+
+% \let (not \newcommand) so the \ifx ... \@empty test below still sees an empty
+% header option as empty.
+\let\kk@header\kklayout@header
+
+% [anatomy:青コーナー飾り左上]
+\NewDocumentCommand{\kkcornerul}{}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \coordinate (K) at ([shift={(4mm,-4mm)}]current page.north west);
+    \draw[kkaccent,line width=.5pt] (K) -- ++(11mm,0mm);
+    \draw[kkaccent,line width=.5pt] (K) -- ++(0mm,-9mm);
+    \filldraw[fill=kksecondary,draw=kkaccent,line width=.4pt]
+      ([shift={(-.5mm,-.5mm)}]K) rectangle ++(1mm,1mm);
+  \end{tikzpicture}%
+}
+
+% [anatomy:青コーナー飾り右下]
+\NewDocumentCommand{\kkcornerlr}{}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \coordinate (K) at ([shift={(-4mm,4mm)}]current page.south east);
+    \draw[kkaccent,line width=.5pt] (K) -- ++(-11mm,0mm);
+    \draw[kkaccent,line width=.5pt] (K) -- ++(0mm,9mm);
+    \filldraw[fill=kksecondary,draw=kkaccent,line width=.4pt]
+      ([shift={(-.5mm,-.5mm)}]K) rectangle ++(1mm,1mm);
+  \end{tikzpicture}%
+}
+
+\newcommand{\kk@runninghead}{%
+  \kkcornerul
+  \kkcornerlr
+  \begin{tikzpicture}[remember picture,overlay]
+    % [anatomy:柱]
+    \node[
+      anchor=east,
+      yshift=-\kk@geom@top+6mm,
+      xshift=-\kk@geom@left
+    ] at (current page.north east) {%
+      \footnotesize\kkgt{3}%
+      \ifx\kk@header\@empty\else
+        \space\kk@header
+      \fi
+    };
+    % [anatomy:フッター罫線]
+    \draw[kkdark,line width=.5pt]
+      ([yshift=\kk@geom@bottom-3mm,
+        xshift=-\kk@geom@left]current page.south east)
+      --
+      ([yshift=\kk@geom@bottom-3mm,
+        xshift=\kk@geom@right]current page.south west);
+    % [anatomy:ノンブル]
+    \node[anchor=center]
+      at ([yshift=\kk@geom@bottom-6mm,
+           xshift=0.5*(-\kk@geom@left+\kk@geom@right)]
+           current page.south)
+      {\footnotesize\gtfamily
+       \textcolor{kkdark}{\symbol{"2015}}\hspace*{1ex}%
+       \thepage
+       \hspace*{1ex}\textcolor{kkdark}{\symbol{"2015}}};
+  \end{tikzpicture}%
+}
+
+\pagestyle{fancy}
+\renewcommand{\headrule}{}
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[OR]{\kk@runninghead}
+\fancyhead[ER]{\kk@runninghead}
+\endinput

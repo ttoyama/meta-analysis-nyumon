@@ -1,0 +1,36 @@
+# パッケージの入っていない CRAN 版の R で、読者と同じ手順を最初から実行する
+name: check
+
+on:
+  push:
+    branches: [main]
+    paths: ['**.R', '.github/workflows/check.yml']
+  workflow_dispatch:
+
+jobs:
+  run:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: release
+          use-public-rspm: false
+      - name: 00_setup.R
+        run: Rscript 00_setup.R
+      - name: 100_part1.R
+        run: Rscript 100_part1.R
+      - name: 200_part2.R
+        run: Rscript 200_part2.R
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fig-${{ matrix.os }}
+          path: |
+            fig_*.pdf
+            out/
+            data/
