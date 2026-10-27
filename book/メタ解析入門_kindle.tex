@@ -1,0 +1,14 @@
+% メタ解析入門（Kindle Paperwhite 7 インチ、107x142mm）。本体は contents.tex、章は body/chNN.tex に 1 章 1 ファイルで置く。
+\documentclass[paper={107mm,142mm},book,openany,fontsize=11pt]{jlreq}
+\newcommand{\kktoccols}{1}   % 目次は 1 段
+\usepackage[top=5mm,bottom=5mm,left=5mm,right=5mm,header={}]{kk}
+\renewcommand{\baselinestretch}{1.1}\selectfont
+\newcommand{\kkcoverscale}{.5}\newcommand{\kkcovery}{27mm}\newcommand{\kkcoverrx}{-42mm}
+\input{reading-preamble}
+\setlist[description]{style=unboxed}   % 用語集の長い見出し語を途中で折り返す
+\input{cover}
+\begin{document}
+\pagestyle{empty}
+
+\input{contents}
+\end{document}

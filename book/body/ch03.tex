@@ -83,6 +83,7 @@
 選別の経過は、何件を探し、どの段階で何件を、どんな理由で除いたかを、PRISMA 2020（Page 2021）の形式のフロー図にまとめます。降圧薬 A のレビューの架空の例を図 3.1 に示します。
 
 \begin{kkcenter}
+\begin{kkfitpic}
 \begin{tikzpicture}[
   fb/.style={kplain, minimum width=50mm, text width=46mm, align=left, font=\scriptsize, minimum height=7mm},
   xb/.style={kbox, minimum width=50mm, text width=46mm, align=left, font=\scriptsize, minimum height=7mm},
@@ -100,6 +101,7 @@
 \foreach \a/\b in {id/dup,sc/ex1,rt/nr} \draw[kar] (\a) -- (\b);
 \draw[kar] (el.east) -- (el.east -| ex2.west);
 \end{tikzpicture}
+\end{kkfitpic}
 \kkcap{図 3.1　降圧薬 A のレビューの PRISMA 2020 フロー図（架空の数）}
 \end{kkcenter}
 

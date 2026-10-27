@@ -1,0 +1,31 @@
+% 表紙から付録までの本体。判型ごとの親ファイル（メタ解析入門*.tex）から \input する。
+\thumbcover{臨床検査技師のための}{メタ解析入門}{}{介入の効果から検査の精度まで\\R で手を動かす}{2026 年 10 月}
+
+\input{body/digest}
+\tableofcontents
+\input{body/ch00}
+
+\kkpart{1}{メタ解析の基本}{\input{body/part1_intro}}
+\kkchapter{1}{メタ解析とは何か}\input{body/ch01}
+\kkchapter{2}{問いを立て、計画を書く}\input{body/ch02}
+\kkchapter{3}{文献を探して選ぶ}\input{body/ch03}
+\kkchapter{4}{データを取り出し、バイアスを評価する}\input{body/ch04}
+\kkchapter{5}{効果を統合する}\input{body/ch05}
+\kkchapter{6}{試験間のばらつきを読む}\input{body/ch06}
+\kkchapter{7}{結果を疑い、確かさを評価する}\input{body/ch07}
+\kkchapter{8}{メタ解析を報告する}\input{body/ch08}
+
+\kkpart{2}{検査のメタ解析}{\input{body/part2_intro}}
+\kkchapter{9}{検査の精度を表す言葉}\input{body/ch09}
+\kkchapter{10}{検査のメタ解析はどこが違うのか}\input{body/ch10}
+\kkchapter{11}{検査のレビューの問いと文献の選別}\input{body/ch11}
+\kkchapter{12}{2×2 表を取り出し、バイアスのリスクを評価する}\input{body/ch12}
+\kkchapter{13}{R で二変量モデルを当てはめる}\input{body/ch13}
+\kkchapter{14}{ばらつきの原因を探す}\input{body/ch14}
+\kkchapter{15}{結果を臨床の言葉にして報告する}\input{body/ch15}
+
+\kkappendixtrue
+\kkpart{}{付録}{R の準備、コードの全文、用語集、参考文献を収めます。}
+\kkchapter{A}{R の準備とコードの全文}\input{body/appA}
+\kkchapter{B}{用語集}\input{body/appB}
+\kkchapter{C}{参考文献}\input{body/appC}

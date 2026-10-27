@@ -61,6 +61,7 @@
 二変量モデルは、感度と特異度を 2 つの階で同時に扱います。図 10.2 にその構造を示します。
 
 \begin{kkcenter}
+\begin{kkfitpic}
 \begin{tikzpicture}[node distance=7mm and 6mm]
   \node[kbox, align=flush center, text width=96mm] (top) {研究間の階：研究ごとの「真の」logit 感度と logit 特異度は、\\平均（要約点）のまわりに 2 次元の正規分布で散らばる\\（2 つの平均、2 つの分散、1 つの相関）};
   \node[kplain, align=flush center, text width=25mm, below=of top, xshift=-33mm] (s1) {研究 1 の真の\\感度と特異度};
@@ -74,6 +75,7 @@
   \node[font=\footnotesize, anchor=west, text=kkdark] at ($(s3.east)!.5!(o3.east)+(1mm,0)$) {研究内の階};
   \node[font=\scriptsize, align=flush center, below=2mm of o2, text width=100mm] {研究内の階：真の感度のもとで、病気のある人のうち何人が陽性になるかは二項分布に従う\\（特異度も同じ）};
 \end{tikzpicture}
+\end{kkfitpic}
 \kkcap{図 10.2　二変量モデルの 2 つの階}
 \end{kkcenter}
 

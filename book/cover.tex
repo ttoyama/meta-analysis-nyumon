@@ -13,6 +13,10 @@
 % 以降の y 座標を 16mm ずつ下げる。
 % 2026-10-21: 印刷でインクを使いすぎないよう、白地に細い罫線と文字だけの表紙にした。
 % 飾りは淡い色の線画（SROC 曲線とフォレストプロット）にとどめる。
+% 飾りの大きさと位置。小さい判型（Kindle 版）は親ファイルで先に定義して縮める
+\providecommand{\kkcoverscale}{1}
+\providecommand{\kkcovery}{40mm}
+\providecommand{\kkcoverrx}{-74mm}
 \newcommand{\thumbcover}[5]{%
   \thispagestyle{empty}%
   \null
@@ -42,7 +46,7 @@
       {#4};
 
     % 飾り: 左にフォレストプロット、右に SROC 曲線（淡い線画）
-    \begin{scope}[shift={([xshift=14mm, yshift=40mm]current page.south west)}, x=1mm, y=1mm,
+    \begin{scope}[shift={([xshift=14mm, yshift=\kkcovery]current page.south west)}, x=1mm, y=1mm, scale=\kkcoverscale,
                   draw=kksecondary, line width=.6pt]
       \draw[dashed] (28,0) -- (28,62);
       \foreach \y/\c/\w in {58/20/9, 52/24/6, 46/18/12, 40/26/5, 34/22/8, 28/25/7, 22/19/10, 16/23/6} {
@@ -51,7 +55,7 @@
       }
       \fill[kkaccent!60] (16,6) -- (22,8) -- (28,6) -- (22,4) -- cycle;
     \end{scope}
-    \begin{scope}[shift={([xshift=-74mm, yshift=40mm]current page.south east)}, x=1mm, y=1mm,
+    \begin{scope}[shift={([xshift=\kkcoverrx, yshift=\kkcovery]current page.south east)}, x=1mm, y=1mm, scale=\kkcoverscale,
                   line width=.6pt]
       \draw[kksecondary] (0,0) rectangle (60,60);
       \draw[kksecondary, dotted] (0,0) -- (60,60);

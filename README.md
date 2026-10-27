@@ -3,6 +3,8 @@
 メタ解析をこれから始める臨床検査技師のための学習書と、本の中で使う R のスクリプトです。前半（第 1 部）で介入の効果を統合する方法を、後半（第 2 部）で検査の精度を統合する方法を、架空の例題と実データで説明しています。
 
 - 本: [`meta_analysis_nyumon.pdf`](meta_analysis_nyumon.pdf)（A5、約 230 ページ）
+  - 印刷用: [`meta_analysis_nyumon_a4.pdf`](meta_analysis_nyumon_a4.pdf)（A4、片面印刷向け、約 160 ページ）
+  - Kindle 用: [`meta_analysis_nyumon_kindle.pdf`](meta_analysis_nyumon_kindle.pdf)（7 インチの Kindle Paperwhite に合わせた判型）
 - R のスクリプト: このリポジトリの `.R` ファイル
 - 本の LaTeX ソース: [`book/`](book/)
 
@@ -12,7 +14,9 @@
 
 | ファイル | 中身 |
 |----------|------|
-| `meta_analysis_nyumon.pdf` | 本 |
+| `meta_analysis_nyumon.pdf` | 本（A5） |
+| `meta_analysis_nyumon_a4.pdf` | 本（A4 の印刷用） |
+| `meta_analysis_nyumon_kindle.pdf` | 本（Kindle 用） |
 | `meta-analysis-nyumon.Rproj` | RStudio のプロジェクト。ダブルクリックで開くと、作業フォルダが自動で決まる |
 | `00_setup.R` | 最初に 1 回実行する準備。パッケージの導入、フォルダの作成、架空データの作成を行う |
 | `010_make_data.R` | 架空データ（降圧薬 A の 10 試験、プロカルシトニンの 10 研究）を作る。`00_setup.R` が呼び出す |
@@ -58,7 +62,7 @@ Sys.setenv(http_proxy = "http://proxy.example.ac.jp:8080",
 
 ## 本を自分で組むとき
 
-`book/` で次を実行すると、`メタ解析入門.pdf` ができます。TeX Live の LuaLaTeX で組みます。
+`book/` で次を実行すると、`メタ解析入門.pdf`（A5）ができます。A4 版は `メタ解析入門_a4.tex`、Kindle 版は `メタ解析入門_kindle.tex` を同じように組みます。本文は 3 つの版で共通の `contents.tex` と `body/` にあります。TeX Live の LuaLaTeX で組みます。
 
 ```sh
 cd book

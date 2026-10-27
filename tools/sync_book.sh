@@ -15,7 +15,7 @@ done
 
 mkdir -p "$DST/book"
 rsync -a --delete \
-  --include='/メタ解析入門.tex' --include='/cover.tex' --include='/reading-preamble.tex' \
+  --include='/メタ解析入門*.tex' --include='/contents.tex' --include='/cover.tex' --include='/reading-preamble.tex' \
   --include='/sty/' --include='/sty/*.sty' \
   --include='/body/' --include='/body/*.tex' \
   --include='/body/code/' --include='/body/code/*.R' \
@@ -28,4 +28,6 @@ for f in $(grep -ohE 'kkfig(\[[^]]*\])?\{[A-Za-z0-9_.-]+\}' "$SRC"/body/*.tex | 
   cp "$SRC/../fig/${f%.pdf}.pdf" "$DST/book/fig/"
 done
 cp "$SRC/メタ解析入門.pdf" "$DST/meta_analysis_nyumon.pdf"
-echo "写しました: book/ と meta_analysis_nyumon.pdf"
+cp "$SRC/メタ解析入門_a4.pdf" "$DST/meta_analysis_nyumon_a4.pdf"
+cp "$SRC/メタ解析入門_kindle.pdf" "$DST/meta_analysis_nyumon_kindle.pdf"
+echo "写しました: book/ と PDF 3 つ（A5、A4、Kindle）"

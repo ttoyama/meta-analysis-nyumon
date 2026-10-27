@@ -83,6 +83,10 @@
   breaklines, breakanywhere, fontsize=\footnotesize, frame=single, framerule=.4pt,
   rulecolor=\color{kksecondary}, framesep=2mm, formatcom=\color{kkdark}}
 
+% 本文の TikZ 図は、紙面より広いときだけ縮める（Kindle 版の狭い紙面用。A5、A4 では何も変わらない）
+\usepackage{adjustbox}
+\newenvironment{kkfitpic}{\par\noindent\begin{adjustbox}{max width=\linewidth,center}}{\end{adjustbox}}
+
 % 図を入れる（kkcenter と見出しを一緒に）
 % R の図は浮動体にする。次のページへ送られても、空いた所に本文が流れる
 \newcommand{\kkfig}[3][\linewidth]{%

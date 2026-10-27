@@ -78,6 +78,7 @@
 ランダム効果モデルは、施設ごとに校正や試薬ロットの違いによる系統的なずれがあり、施設が測っている値そのものが少しずつ違うと考えます。試験でも、対象の年齢、併用している治療、追跡期間が違えば、真の効果が少しずつ違います。このモデルでは、試験ごとの真の効果が一つの分布から出てきたとみなし、その分布の平均を推定します。真の効果の散らばりの大きさを研究間分散と呼び、τ²（タウ二乗）で表します。τ² は施設間のずれの大きさに当たり、各施設の中の偶然誤差、つまり各試験の分散とは別のものです。
 
 \begin{kkcenter}
+\begin{kkfitpic}
 \begin{tikzpicture}[x=1mm,y=1mm, font=\footnotesize]
   \node[font=\small\gtfamily, anchor=west] at (0,48) {固定効果モデル};
   \draw[kkdark, line width=.6pt] (0,8) -- (52,8);
@@ -104,6 +105,7 @@
   \node[anchor=north, align=center] at (26,6) {試験ごとの真の効果（黒点）が\\違い、そこに偶然のぶれが加わる};
   \end{scope}
 \end{tikzpicture}
+\end{kkfitpic}
 \kkcap{図 5.1　二つのモデルの考え方。青い点と横線は試験ごとの推定値と信頼区間}
 \end{kkcenter}
 

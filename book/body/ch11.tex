@@ -105,6 +105,7 @@ G & 除外 & 精度ではなく、検査を使った治療方針の効果を調�
 選別の結果は、PRISMA-DTA に沿ったフロー図で報告します。PRISMA 2020 の書式に合わせ、研究の数と報告の数を分けて数えます（フロー図の見方は\kkref{sec:03-5}で、重複した報告を試験単位にまとめる作業は\kkref{sec:03-3}で説明しました）。同じ研究について複数の報告（本論文、続報、学会抄録）があるとき、報告は別々に数え、研究は 1 つと数えます。架空の例を図 11.1 に示します。
 
 \begin{kkcenter}
+\begin{kkfitpic}
 \begin{tikzpicture}[
   fbox/.style={kbox, align=flush center, text width=46mm, font=\scriptsize, minimum height=9mm},
   xbox/.style={kplain, text width=50mm, font=\scriptsize, align=left, minimum height=9mm},
@@ -126,6 +127,7 @@ G & 除外 & 精度ではなく、検査を使った治療方針の効果を調�
   \draw[kar] (a) -- (b); \draw[kar] (b) -- (c); \draw[kar] (c) -- (d); \draw[kar] (d) -- (e);
   \draw[kar] (b) -- (xb); \draw[kar] (c) -- (xc); \draw[kar] (d.east) -- (d.east -| xd.west);
 \end{tikzpicture}
+\end{kkfitpic}
 \kkcap{図 11.1　架空の PCT のレビューのフロー図（数は例）}
 \end{kkcenter}
 

@@ -202,18 +202,24 @@
 % 目次の後は必ず改ページする（冊子では目次と本文 1 ページ目は同じ紙に載らない）。
 % 続けたい場合だけ \renewcommand{\<prefix>@toc@after}{} で無効にする。
 % [anatomy:2段組目次]
+% 段数は \kktoccols で変えられる（狭い判型では 1 にする）
+\providecommand{\kktoccols}{2}
 \newcommand{\kk@toc@after}{\clearpage}
 \RenewDocumentCommand{\tableofcontents}{}{%
   \begingroup
     \setlength{\parskip}{0pt}%
     \setlength{\parindent}{0pt}%
     \setlength{\multicolsep}{0pt}%
-    \begin{multicols}{2}%
-      \setlength{\columnseprule}{0pt}%
-      \setlength{\topskip}{0pt}%
-      \raggedcolumns
+    \ifnum\kktoccols>1
+      \begin{multicols}{\kktoccols}%
+        \setlength{\columnseprule}{0pt}%
+        \setlength{\topskip}{0pt}%
+        \raggedcolumns
+        \@starttoc{toc}%
+      \end{multicols}%
+    \else
       \@starttoc{toc}%
-    \end{multicols}%
+    \fi
   \endgroup
   \kk@toc@after
 }
